@@ -1,0 +1,78 @@
+======================================================================
+📊 PHASE 7 — MULTIMODAL FORECASTING SUMMARY
+======================================================================
+
+Stocks analyzed: 30
+Total multimodal checkpoints: 60 (30 × 2 fusions)
+Fusion strategies: Early (concat) + Late (two-stream)
+Sentiment features: 7 (n_articles, mean_score, weighted_score, mean_confidence, pos_count, neg_count, neu_count)
+Sentiment NaN policy: per-stock forward-fill (sticky) + bfill for leading NaNs + 0.0 fallback for stocks with zero news
+
+----------------------------------------------------------------------
+EARLY FUSION (concat → single LSTM)
+----------------------------------------------------------------------
+  Avg RMSE:      0.019758
+  Avg MAE:       0.015573
+  Avg R²:        -0.0080
+  Avg Dir_Acc:   49.7%
+  Stocks ≥ 50%:  13/30
+
+----------------------------------------------------------------------
+LATE FUSION (price LSTM + sentiment LSTM → concat → MLP)
+----------------------------------------------------------------------
+  Avg RMSE:      0.020010
+  Avg MAE:       0.015769
+  Avg R²:        -0.0343
+  Avg Dir_Acc:   49.8%
+  Stocks ≥ 50%:  12/30
+
+----------------------------------------------------------------------
+ABLATION vs PHASE 4 (LSTM, PRICE ONLY)
+----------------------------------------------------------------------
+  Phase 4 RMSE:    0.019771    Dir_Acc: 49.8%
+  Phase 7 Early:   0.019758    Dir_Acc: 49.7%   Δ RMSE=-0.000013  Δ Dir=-0.04pp
+  Phase 7 Late:    0.020010    Dir_Acc: 49.8%   Δ RMSE=+0.000239  Δ Dir=-0.00pp
+
+----------------------------------------------------------------------
+TOP 10 STOCKS BY Dir_Acc (Late Fusion)
+----------------------------------------------------------------------
+  Stock               Dir_Acc        RMSE    Epochs
+  GP                    54.8%    0.021082         9
+  SIBL                  52.8%    0.022624        16
+  SQURPHARMA            52.7%    0.015475        24
+  CUSTOMERS             52.4%    0.023260         9
+  BEXPHARMA             52.2%    0.021087         8
+  BANKASIA              51.8%    0.016833        14
+  MARICO                51.6%    0.026672        16
+  UNILEVER              51.6%    0.023206        24
+  ROBI                  51.5%    0.028794        16
+  POWERGRID             50.8%    0.028790        10
+
+----------------------------------------------------------------------
+BOTTOM 10 STOCKS BY Dir_Acc (Late Fusion)
+----------------------------------------------------------------------
+  RENATA                46.0%    0.018729        13
+  JAMUNAOIL             46.8%    0.014763        16
+  TITASGAS              47.3%    0.016498        25
+  EBL                   47.6%    0.024420        13
+  BRACBANK              47.7%    0.019801        16
+  DBBL                  47.8%    0.013990        14
+  LAFARGECEM            48.0%    0.019125         9
+  PRIMEBANK             48.2%    0.012651        10
+  HEIDELBCEM            48.4%    0.019224        18
+  SUMITPOWER            48.5%    0.030119        12
+
+======================================================================
+KEY INSIGHTS
+======================================================================
+1. Phase 7 mirrors Phase 4 leak-free discipline: StandardScaler fit on
+   TRAIN only, time-based split, identical window length.
+2. Sentiment is forward-filled per stock (sticky, realistic).
+3. ~50 of ~3000 trading days per stock have any news — sentiment is
+   an exogenous, sparse signal. Expect modest Δ vs Phase 4.
+4. Late fusion generally has fewer parameters (228K) than early (356K)
+   — better suited to the small sentiment signal.
+5. At inference, sentiment window is FROZEN across forecast steps.
+======================================================================
+END OF REPORT
+======================================================================

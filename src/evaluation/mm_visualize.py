@@ -223,10 +223,10 @@ def plot_confusion_matrix(mm_df: pd.DataFrame):
         sub = mm_df[mm_df["fusion_strategy"] == fusion]
         # Bucket Dir_Acc into ranges to visualize
         bins = [0, 45, 48, 50, 52, 55, 100]
-        labels = ["<45", "45-48", "48-50", "50-52", "52-55", "≥55"]
+        labels = ["<45", "45-48", "48-50", "50-52", "52-55", ">=55"]
         counts = pd.cut(sub["test_dir_acc"], bins=bins, labels=labels,
-                        include_lowest=True).value_counts().sort_index()
-        ax.bar(labels.astype(str), counts.values, color=color, alpha=0.8,
+                        include_lowest=True).value_counts().reindex(labels, fill_value=0)
+        ax.bar(labels, counts.values, color=color, alpha=0.8,
                edgecolor="black", linewidth=0.5)
         ax.set_title(f"{fusion.upper()} Fusion — Dir_Acc Distribution", fontweight="bold")
         ax.set_ylabel("Number of stocks")
