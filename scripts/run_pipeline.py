@@ -25,7 +25,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 from src.utils.config import (
     RAW_STOCKS_DIR, PROCESSED_DATA_DIR, BASELINE_MODELS_DIR,
     BASELINE_RESULTS_DIR, DEEP_LEARNING_MODELS_DIR, DL_RESULTS_DIR,
-    SENTIMENT_RESULTS_DIR,
+    SENTIMENT_RESULTS_DIR, MULTIMODAL_MODELS_DIR, MULTIMODAL_RESULTS_DIR,
     ensure_dirs,
 )
 from src.utils.logger import get_logger
@@ -130,9 +130,35 @@ def phase_6_sentiment():
     return True
 
 
+def phase_7_multimodal(skip_train: bool = False):
+    """Phase 7: Multimodal LSTM (early + late fusion) — train, predict, visualize."""
+    steps = []
+    if not skip_train:
+        # 30 stocks × 2 fusions = 60 checkpoints
+        existing = list(MULTIMODAL_MODELS_DIR.glob("*_best_mm_*.pt"))
+        if len(existing) < 60:
+            steps.append((
+                "Phase 7a: Train Multimodal LSTM (early + late fusion)",
+                "src/training/multimodal_trainer.py",
+            ))
+        else:
+            logger.info(
+                f"Phase 7a: Already have {len(existing)} multimodal checkpoints. Skipping."
+            )
+    steps.append(("Phase 7b: Generate Multimodal Predictions",
+                  "src/inference/mm_predict.py"))
+    steps.append(("Phase 7c: Visualize Multimodal Results (with ablation)",
+                  "src/evaluation/mm_visualize.py"))
+
+    for label, script in steps:
+        if not run_step(label, script):
+            return False
+    return True
+
+
 def main():
     parser = argparse.ArgumentParser(description="Run the full pipeline")
-    parser.add_argument("--phase", type=int, choices=[1, 2, 3, 4, 5, 6], help="Run only a specific phase")
+    parser.add_argument("--phase", type=int, choices=[1, 2, 3, 4, 5, 6, 7], help="Run only a specific phase")
     parser.add_argument("--skip-train", action="store_true", help="Skip training (use existing models)")
     parser.add_argument("--force", action="store_true", help="Force re-run all phases")
     args = parser.parse_args()
@@ -158,11 +184,14 @@ def main():
         success = phase_4_deep_learning(skip_train=args.skip_train) and success
     if args.phase is None or args.phase == 6:
         success = phase_6_sentiment() and success
+    if args.phase is None or args.phase == 7:
+        success = phase_7_multimodal(skip_train=args.skip_train) and success
 
     if success:
         logger.info("\n" + "=" * 70)
         logger.info("✨ Pipeline completed successfully!")
-        logger.info(f"📊 Results: {BASELINE_RESULTS_DIR}, {DL_RESULTS_DIR}, {SENTIMENT_RESULTS_DIR}")
+        logger.info(f"📊 Results: {BASELINE_RESULTS_DIR}, {DL_RESULTS_DIR}, "
+                    f"{SENTIMENT_RESULTS_DIR}, {MULTIMODAL_RESULTS_DIR}")
         logger.info("=" * 70)
         sys.exit(0)
     else:

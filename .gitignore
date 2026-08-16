@@ -133,11 +133,11 @@ logs/*.out
 # All Markdown documentation — README.md, docs/**, phase specs,
 # PROGRESS.md, overview.md, sub-folder READMEs, *_NOTES.md — stays
 # on the local machine and is NEVER pushed to GitHub.
-*.md
-README.md
-docs/**/*.md
-overview.md
-*_NOTES.md
+# *.md
+# README.md
+# docs/**/*.md
+# overview.md
+# *_NOTES.md
 
 # Also ignore the large top-level guide text file (kept local)
 COMPLETE_PROJECT_GUIDE.txt
