@@ -1,0 +1,70 @@
+======================================================================
+📊 PHASE 6 — SENTIMENT ANALYSIS SUMMARY
+======================================================================
+
+� Corpus: 1560 articles (2010-2026)
+   Stocks covered: 30
+   Languages: {'en': 926, 'bn': 634}
+   Event types: {'expansion': 281, 'macro': 273, 'earnings': 271, 'scandal': 262, 'regulatory': 241, 'dividend': 232}
+
+� Predicted-label distribution:
+   negative     631 ( 40.4%)
+   positive     499 ( 32.0%)
+   neutral      430 ( 27.6%)
+
+📈 Mean sentiment score by event type:
+   dividend     +0.2381
+   earnings     +0.1703
+   expansion    +0.0241
+   macro        -0.0269
+   regulatory   -0.0577
+   scandal      -0.9597
+
+� Mean sentiment score by sector:
+   Fuel            +0.0362
+   Power           -0.0162
+   Conglomerate    -0.0344
+   Tobacco         -0.0595
+   Pharma          -0.0723
+   Services        -0.0735
+   Telecom         -0.0764
+   Bank            -0.0935
+   Consumer        -0.0961
+   Electronics     -0.1306
+   Index           -0.2126
+   Cement          -0.2688
+   Gas             -0.3456
+
+📅 Daily aggregation:
+   (stock, date) pairs: 1548
+   Mean weighted_score: -0.1174
+   Median articles per (stock,date): 1.0
+
+🤖 FinBERT classification quality (English vs curated truth):
+   Samples:  926
+   Accuracy: 0.9136
+
+📊 Sentiment-price correlation:
+   Mean Pearson r by lag (across stocks):
+      lag  0  mean r=-0.0111  std=0.1163  n=30
+      lag  1  mean r=+0.0132  std=0.1442  n=30
+      lag  2  mean r=-0.0099  std=0.1289  n=30
+      lag  5  mean r=+0.0248  std=0.1674  n=30
+      lag 10  mean r=-0.0013  std=0.1574  n=30
+
+   Lag-1 significant stocks (p<0.05): 2/30
+
+📈 Average next-day return by sentiment polarity:
+   positive mean=-0.00022  (n=545)
+   neutral  mean=+0.00006  (n=274)
+   negative mean=+0.00036  (n=561)
+   spread (pos - neg) = -0.00058
+
+======================================================================
+📁 OUTPUTS
+======================================================================
+   /media/antar-chandra-nath/Media/Research/Dataset/results/sentiment/news_scored.csv
+   /media/antar-chandra-nath/Media/Research/Dataset/results/sentiment/stock_daily_sentiment.csv
+   /media/antar-chandra-nath/Media/Research/Dataset/results/sentiment/correlation_per_stock.csv
+   /media/antar-chandra-nath/Media/Research/Dataset/results/sentiment/summary_report.txt
+   /media/antar-chandra-nath/Media/Research/Dataset/results/sentiment/plots/ (7 PNG plots)

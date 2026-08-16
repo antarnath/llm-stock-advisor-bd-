@@ -1,0 +1,69 @@
+======================================================================
+DEEP LEARNING (LSTM) — FINAL SUMMARY REPORT (Phase 4)
+======================================================================
+
+Architecture: StockLSTM (3 layers, hidden=128, dropout=0.2)
+Total Stocks: 30
+Target: Target_Return_1d (next-day return)
+Features: Lag-1 technical indicators (NO same-day OHLCV)
+
+----------------------------------------------------------------------
+OVERALL METRICS
+----------------------------------------------------------------------
+  Average RMSE:      0.019771
+  Average MAE:       0.015577
+  Average R²:        -0.0108
+  Average Dir_Acc:   49.8%
+  Median Dir_Acc:    50.0%
+  Avg Epochs Run:    32.6
+  Avg Train Windows: 1555
+  Avg Test Windows:  767
+
+----------------------------------------------------------------------
+TRADING-RELEVANT BREAKDOWN (Directional Accuracy)
+----------------------------------------------------------------------
+  Stocks with Dir_Acc >= 50%: 15/30 (50.0%)
+  Stocks with Dir_Acc >= 52%: 4/30 (13.3%)
+  Stocks with Dir_Acc >= 55%: 0/30 (0.0%)
+
+----------------------------------------------------------------------
+TOP 10 STOCKS BY Dir_Acc
+----------------------------------------------------------------------
+  Stock               Dir_Acc        RMSE    Epochs
+  BEXIMCO               53.7%    0.025110        49
+  BSCCL                 52.7%    0.018461        36
+  NCCBANK               52.4%    0.018684        27
+  WALTONHIL             52.0%    0.018381        24
+  LAFARGECEM            51.9%    0.018334        23
+  JAMUNAOIL             51.6%    0.014574        38
+  SIBL                  51.5%    0.022731        26
+  MUTUALTRUST           51.1%    0.017437        30
+  SQURPHARMA            50.7%    0.015472        24
+  EBL                   50.3%    0.024110        23
+
+----------------------------------------------------------------------
+BOTTOM 10 STOCKS BY Dir_Acc
+----------------------------------------------------------------------
+  DSEX                  45.2%    0.010568        47
+  RENATA                46.3%    0.017739        42
+  DBBL                  46.5%    0.013874        27
+  TITASGAS              46.9%    0.016484        44
+  BEXPHARMA             47.1%    0.020838        24
+  HEIDELBCEM            48.4%    0.019259        27
+  PRIMEBANK             48.5%    0.012801        22
+  POWERGRID             48.6%    0.028069        58
+  ACI                   48.8%    0.013760        22
+  ROBI                  49.2%    0.028448        54
+
+======================================================================
+KEY INSIGHTS
+======================================================================
+1. Phase 4 (LSTM) mirrors Phase 3 v2 leak-free discipline.
+2. Daily return prediction is genuinely hard — Dir_Acc near 50%
+   is realistic for emerging markets.
+3. Any LSTM with Dir_Acc > 52% is a candidate for direction bets.
+4. Comparison vs Phase 3 best baseline is in summary (below).
+
+======================================================================
+END OF REPORT
+======================================================================

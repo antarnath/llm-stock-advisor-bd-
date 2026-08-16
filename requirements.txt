@@ -15,7 +15,7 @@ lightgbm==4.3.0
 joblib==1.3.2
 
 # Deep Learning
-# torch==2.2.0  # uncomment when Phase 4 starts
+torch==2.2.0
 # tensorflow==2.15.0  # optional alternative
 
 # Time Series (Phase 5)

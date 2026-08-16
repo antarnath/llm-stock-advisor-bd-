@@ -80,10 +80,56 @@ ATR_PERIOD = 14
 TEST_SIZE = 0.2
 RANDOM_STATE = 42
 
+# Deep learning (Phase 4)
+DL_SEQUENCE_LENGTH = 60
+DL_HIDDEN_DIM = 128
+DL_NUM_LAYERS = 3
+DL_DROPOUT = 0.2
+DL_LEARNING_RATE = 1e-3
+DL_BATCH_SIZE = 64
+DL_EPOCHS = 100
+DL_PATIENCE = 20  # early stopping
+DL_TRAIN_VAL_SPLIT = 0.1  # % of train hold-out for validation during training
+DL_RESULTS_DIR = RESULTS_DIR / "deep_learning"
+DL_PLOTS_DIR = DL_RESULTS_DIR / "plots"
+
+# Sentiment Analysis (Phase 6)
+FINBERT_MODEL_NAME = "ProsusAI/finbert"   # ~440MB, CPU-friendly
+SENTIMENT_RESULTS_DIR = RESULTS_DIR / "sentiment"
+SENTIMENT_PLOTS_DIR = SENTIMENT_RESULTS_DIR / "plots"
+
+# Multimodal Forecasting (Phase 7) — price + sentiment
+MULTIMODAL_MODELS_DIR = MODELS_DIR / "multimodal"
+MULTIMODAL_RESULTS_DIR = RESULTS_DIR / "multimodal"
+MULTIMODAL_PLOTS_DIR = MULTIMODAL_RESULTS_DIR / "plots"
+MM_SEQUENCE_LENGTH = DL_SEQUENCE_LENGTH   # 60, reuse price window length
+MM_EPOCHS = 50                            # lower than DL_EPOCHS=100 (sentiment is sparse)
+MM_PATIENCE = 7
+MM_BATCH_SIZE = DL_BATCH_SIZE             # 64
+MM_LEARNING_RATE = DL_LEARNING_RATE       # 1e-3
+MM_FILL_NA = 0.0                          # defensive, after forward-fill residual
+MM_SENTIMENT_COLS = [
+    "n_articles", "mean_score", "weighted_score", "mean_confidence",
+    "pos_count", "neg_count", "neu_count",
+]
+
 # Logging
 LOG_FORMAT = "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s"
 LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+
+
+def get_device():
+    """Return torch device (CPU/CUDA) once torch is installed.
+
+    Lazy import so this module doesn't break if torch isn't installed
+    yet (e.g. during Phase 3 baseline training).
+    """
+    try:
+        import torch
+        return torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    except ImportError:
+        return None
 
 
 def get_raw_stock_path(stock_code: str) -> Path:
@@ -106,7 +152,9 @@ def ensure_dirs():
     for d in [
         RAW_STOCKS_DIR, RAW_INDICES_DIR, PROCESSED_DATA_DIR, EXTERNAL_DATA_DIR,
         BASELINE_MODELS_DIR, DEEP_LEARNING_MODELS_DIR, TRANSFORMER_MODELS_DIR, EXPERIMENT_MODELS_DIR,
-        BASELINE_RESULTS_DIR, BASELINE_PLOTS_DIR,
+        BASELINE_RESULTS_DIR, BASELINE_PLOTS_DIR, DL_RESULTS_DIR, DL_PLOTS_DIR,
+        SENTIMENT_RESULTS_DIR, SENTIMENT_PLOTS_DIR,
+        MULTIMODAL_MODELS_DIR, MULTIMODAL_RESULTS_DIR, MULTIMODAL_PLOTS_DIR,
         LOGS_DIR, PHASES_DIR, TESTS_DIR, NOTEBOOKS_DIR,
     ]:
         d.mkdir(parents=True, exist_ok=True)

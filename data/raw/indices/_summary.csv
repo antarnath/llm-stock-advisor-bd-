@@ -1,0 +1,4 @@
+code,name,description,records,date_from,date_to,first_value,last_value,min_value,max_value,avg_value,total_return_%,file_size_kb
+DSEX,DSE Broad Index,Broad market index tracking all listed stocks,4335,2010-01-01,2026-08-13,278.21,145.32,110.39,354.22,174.07,-47.77,386.27
+DS30,DS30 Index,Top 30 companies by market capitalization,4335,2010-01-01,2026-08-13,245.5,83.68,64.69,357.11,157.27,-65.91,360.24
+DSES,DSES Shariah Index,Shariah-compliant stocks index,4335,2010-01-01,2026-08-13,195.3,1540.54,178.71,1542.16,572.38,688.81,402.95

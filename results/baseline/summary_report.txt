@@ -1,0 +1,92 @@
+======================================================================
+BASELINE ML MODELS — FINAL SUMMARY REPORT (v2, LEAK-FREE)
+======================================================================
+
+Date: 2026-08-16 13:05:45
+Project: LLM-Orchestrated Financial Advisor for Bangladesh Stock Market
+Phase: 3 - Baseline Forecasting (v2)
+Total Stocks: 30
+Models: Linear Regression, Random Forest, XGBoost, LightGBM
+Target: Target_Return_1d (next-day return)
+Features: Lag-1 indicators only (no same-day OHLCV)
+
+======================================================================
+LEAKAGE FIX — v2 vs v1
+======================================================================
+
+v1 (BUGGY) used Target_Price_1d and kept current-day OHLCV + all
+    today's indicators as features. Linear Regression got R²=0.89
+    because today_close[t] ≈ today_close[t+1].  Not skill — leak.
+v2 (FIXED) predicts Target_Return_1d using ONLY yesterday's
+    indicators. R² near zero is now realistic for daily returns.
+
+======================================================================
+MODEL PERFORMANCE
+======================================================================
+
+LinearRegression:
+  Average RMSE:        0.019767
+  Average MAE:         0.015600
+  Average MAPE:        128.45%
+  Average R²:          -0.0158
+  Average Dir_Acc:     50.0% (50% = random)
+
+RandomForest:
+  Average RMSE:        0.020158
+  Average MAE:         0.015921
+  Average MAPE:        162.22%
+  Average R²:          -0.0548
+  Average Dir_Acc:     50.2% (50% = random)
+
+XGBoost:
+  Average RMSE:        0.020236
+  Average MAE:         0.015993
+  Average MAPE:        171.15%
+  Average R²:          -0.0608
+  Average Dir_Acc:     50.2% (50% = random)
+
+LightGBM:
+  Average RMSE:        0.020508
+  Average MAE:         0.016211
+  Average MAPE:        186.88%
+  Average R²:          -0.0876
+  Average Dir_Acc:     50.2% (50% = random)
+
+======================================================================
+BEST MODEL DISTRIBUTION (by RMSE)
+======================================================================
+
+  LinearRegression: 26 stocks (86.7%)
+  RandomForest: 2 stocks (6.7%)
+  XGBoost: 1 stocks (3.3%)
+  LightGBM: 1 stocks (3.3%)
+
+======================================================================
+TOP 10 STOCKS BY Dir_Acc (best LightGBM or whichever model wins)
+======================================================================
+
+     stock   best_model_dir  best_dir_acc_%
+ BEXPHARMA LinearRegression       55.259976
+ CUSTOMERS          XGBoost       54.897219
+      ROBI     RandomForest       53.688029
+ PRIMEBANK LinearRegression       53.567110
+SQURPHARMA          XGBoost       53.446191
+  UNILEVER         LightGBM       53.325272
+    MARICO     RandomForest       53.204353
+      DSEX     RandomForest       53.083434
+      SIBL LinearRegression       52.841596
+       ACI          XGBoost       52.841596
+
+======================================================================
+KEY INSIGHTS
+======================================================================
+
+1. Leakage fixed: target is now next-day return, features are lag-1.
+2. R² values are realistic (close to zero) — daily return prediction is
+   genuinely hard for an emerging market.
+3. Directional Accuracy is the most useful metric for trading: any model
+   with Dir_Acc > 50% has positive expected value on direction bets.
+
+v1 (LEAKY) summary for comparison:
+
+======================================================================

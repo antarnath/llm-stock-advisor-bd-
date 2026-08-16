@@ -1,0 +1,73 @@
+======================================================================
+BASELINE ML MODELS - FINAL SUMMARY REPORT
+======================================================================
+
+Date: 2026-08-13 21:00:35
+Project: LLM-Orchestrated Financial Advisor for Bangladesh Stock Market
+Phase: 3 - Baseline Forecasting
+Total Stocks: 30
+Models: Linear Regression, Random Forest, XGBoost
+
+======================================================================
+MODEL PERFORMANCE
+======================================================================
+
+LinearRegression:
+  Average RMSE:  16.47
+  Average MAE:   12.87
+  Average MAPE:  5.07%
+  Average R²:    0.8947
+
+RandomForest:
+  Average RMSE:  28.03
+  Average MAE:   20.80
+  Average MAPE:  12.73%
+  Average R²:    0.2107
+
+XGBoost:
+  Average RMSE:  29.43
+  Average MAE:   21.80
+  Average MAPE:  13.36%
+  Average R²:    0.1440
+
+======================================================================
+BEST MODEL DISTRIBUTION
+======================================================================
+
+  RandomForest: 17 stocks (56.7%)
+  LinearRegression: 9 stocks (30.0%)
+  XGBoost: 4 stocks (13.3%)
+
+======================================================================
+TOP 10 STOCKS BY R² (Best Predictions)
+======================================================================
+
+      stock best_model  best_r2
+     MARICO         RF 0.995934
+     RENATA         RF 0.991630
+       DSEX         RF 0.990617
+   BRACBANK         RF 0.990357
+  BEXPHARMA         RF 0.988163
+ISLAMI BANK        XGB 0.986343
+      BATBC         RF 0.986249
+       DBBL        XGB 0.985606
+   TITASGAS         RF 0.985300
+  CUSTOMERS         RF 0.983618
+
+======================================================================
+KEY INSIGHTS
+======================================================================
+
+1. Best Overall Model: LinearRegression
+   Average RMSE: 16.47
+   Average R²: 0.8947
+
+2. Linear Regression performed best for: 9 stocks
+
+3. Random Forest performed best for: 17 stocks
+
+4. XGBoost performed best for: 4 stocks
+
+5. Models show good predictive capability with most R² scores above 0.8
+
+======================================================================

@@ -1,0 +1,25 @@
+======================================================================
+📊 SENTIMENT–PRICE CORRELATION SUMMARY (Phase 6)
+======================================================================
+
+Stocks analyzed: 30
+Lags tested: [0, 1, 2, 5, 10] (days)
+Total (stock, lag) cells: 150
+
+📈 Mean Pearson r by lag (across stocks):
+   lag  0  mean r=-0.0111  median=+0.0009  std=0.1163  n=30
+   lag  1  mean r=+0.0132  median=+0.0254  std=0.1442  n=30
+   lag  2  mean r=-0.0099  median=-0.0258  std=0.1289  n=30
+   lag  5  mean r=+0.0248  median=+0.0235  std=0.1674  n=30
+   lag 10  mean r=-0.0013  median=-0.0055  std=0.1574  n=30
+
+📌 Significant lead-lag (lag=1, p<0.05): 2/30 stocks
+   Top 5 by |r|:
+      BEXPHARMA        r=+0.328  p=0.0339  n=42
+      RENATA           r=+0.286  p=0.0492  n=48
+
+📊 Average next-day return by sentiment polarity:
+   Positive sentiment days:  mean next-day return = -0.00022  (n=545)
+   Negative sentiment days:  mean next-day return = +0.00036  (n=561)
+   Neutral sentiment days:   mean next-day return = +0.00006  (n=274)
+   Spread (pos - neg):       -0.00058

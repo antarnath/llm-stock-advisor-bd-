@@ -24,7 +24,9 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.utils.config import (
     RAW_STOCKS_DIR, PROCESSED_DATA_DIR, BASELINE_MODELS_DIR,
-    BASELINE_RESULTS_DIR, ensure_dirs,
+    BASELINE_RESULTS_DIR, DEEP_LEARNING_MODELS_DIR, DL_RESULTS_DIR,
+    SENTIMENT_RESULTS_DIR,
+    ensure_dirs,
 )
 from src.utils.logger import get_logger
 
@@ -91,9 +93,46 @@ def phase_3_baseline(skip_train: bool = False):
     return True
 
 
+def phase_4_deep_learning(skip_train: bool = False):
+    """Phase 4: Train LSTM, predict, visualize."""
+    steps = []
+    if not skip_train:
+        existing_models = list(DEEP_LEARNING_MODELS_DIR.glob("*_best_lstm.pt"))
+        if len(existing_models) < 30:
+            steps.append((
+                "Phase 4a: Train LSTM (Deep Learning)",
+                "src/training/deep_learning_trainer.py",
+            ))
+        else:
+            logger.info(
+                f"Phase 4a: Already have {len(existing_models)} LSTM checkpoints. Skipping."
+            )
+    steps.append(("Phase 4b: Generate LSTM Predictions", "src/inference/dl_predict.py"))
+    steps.append(("Phase 4c: Visualize LSTM Results", "src/evaluation/dl_visualize.py"))
+
+    for label, script in steps:
+        if not run_step(label, script):
+            return False
+    return True
+
+
+def phase_6_sentiment():
+    """Phase 6: Sentiment Analysis — curate news, score, correlate, visualize."""
+    steps = [
+        ("Phase 6a: Curate News Dataset", "src/data_collection/news_curator.py"),
+        ("Phase 6b: Score Articles (FinBERT/Bangla)", "src/sentiment/scoring_pipeline.py"),
+        ("Phase 6c: Sentiment-Price Correlation", "src/sentiment/correlation_analysis.py"),
+        ("Phase 6d: Visualize Sentiment Results", "src/sentiment/visualize.py"),
+    ]
+    for label, script in steps:
+        if not run_step(label, script):
+            return False
+    return True
+
+
 def main():
     parser = argparse.ArgumentParser(description="Run the full pipeline")
-    parser.add_argument("--phase", type=int, choices=[1, 2, 3], help="Run only a specific phase")
+    parser.add_argument("--phase", type=int, choices=[1, 2, 3, 4, 5, 6], help="Run only a specific phase")
     parser.add_argument("--skip-train", action="store_true", help="Skip training (use existing models)")
     parser.add_argument("--force", action="store_true", help="Force re-run all phases")
     args = parser.parse_args()
@@ -115,11 +154,15 @@ def main():
         success = phase_2_process() and success
     if args.phase is None or args.phase == 3:
         success = phase_3_baseline(skip_train=args.skip_train) and success
+    if args.phase is None or args.phase == 4:
+        success = phase_4_deep_learning(skip_train=args.skip_train) and success
+    if args.phase is None or args.phase == 6:
+        success = phase_6_sentiment() and success
 
     if success:
         logger.info("\n" + "=" * 70)
         logger.info("✨ Pipeline completed successfully!")
-        logger.info(f"📊 Results: {BASELINE_RESULTS_DIR}")
+        logger.info(f"📊 Results: {BASELINE_RESULTS_DIR}, {DL_RESULTS_DIR}, {SENTIMENT_RESULTS_DIR}")
         logger.info("=" * 70)
         sys.exit(0)
     else:
