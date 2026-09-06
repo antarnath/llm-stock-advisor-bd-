@@ -1,0 +1,93 @@
+============================================================
+QUERY: Which banks had negative news recently?
+============================================================
+[1] 2023-01-17 | DBBL (bn) | sent=-1.00
+    Dutch-Bangla Bank PLC দুটি কারখানা বন্ধ করেছে
+    sim=0.572
+[2] 2020-11-11 | DUTCHBANGL (bn) | sent=-1.00
+    Dutch-Bangla Bank PLC দুটি কারখানা বন্ধ করেছে
+    sim=0.572
+[3] 2021-03-31 | EBL (bn) | sent=+1.00
+    Eastern Bank PLC বিশেষ লভ্যাংশ ঘোষণা করেছে
+    sim=0.563
+
+============================================================
+QUERY: Pharmaceutical company expansion plans
+============================================================
+[1] 2012-02-01 | BEXPHARMA (en) | sent=-0.93
+    BEXIMCO Pharmaceuticals defers Tk50 crore expansion plan
+    sim=0.587
+[2] 2024-04-24 | SQURPHARMA (bn) | sent=+1.00
+    Square Pharmaceuticals PLC নতুন পণ্যের জন্য কেন্দ্রীয় ব্যাংকের অনুমোদন পেয়েছে
+    sim=0.573
+[3] 2026-05-16 | SQURPHARMA (bn) | sent=+1.00
+    Square Pharmaceuticals PLC শেয়ারহোল্ডারদের জন্য 12% নগদ লভ্যাংশ ঘোষণা
+    sim=0.570
+
+============================================================
+QUERY: Dividend announcements in 2024
+============================================================
+[1] 2024-09-02 | BEXIMCO (bn) | sent=+1.00
+    BEXIMCO Limited বিশেষ লভ্যাংশ ঘোষণা করেছে
+    sim=0.457
+[2] 2013-05-20 | ACI (bn) | sent=+1.00
+    ACI Limited বিশেষ লভ্যাংশ ঘোষণা করেছে
+    sim=0.456
+[3] 2019-10-21 | PRIMEBANK (bn) | sent=+1.00
+    Prime Bank Limited বিশেষ লভ্যাংশ ঘোষণা করেছে
+    sim=0.423
+
+============================================================
+QUERY: BATBC dividend announcement
+  filter stock: BATBC
+============================================================
+(no matches)
+
+============================================================
+QUERY: GP regulatory issues
+  filter stock: GP
+============================================================
+(no matches)
+
+============================================================
+QUERY: ব্যাংক ঋণ জালিয়াতি
+  filter language: bn
+============================================================
+[1] 2018-07-31 | NCCBANK (bn) | sent=-1.00
+    আদালত National Credit & Commerce Bank পরিচালকদের সম্পদ জব্দ করেছে
+    sim=0.631
+[2] 2016-05-06 | EBL (bn) | sent=-1.00
+    Eastern Bank PLC কর ফাঁকির অভিযোগে
+    sim=0.607
+[3] 2012-09-21 | BRACBANK (bn) | sent=-1.00
+    আদালত BRAC Bank Limited পরিচালকদের সম্পদ জব্দ করেছে
+    sim=0.597
+
+============================================================
+QUERY: কোম্পানী বিস্তার
+  filter language: bn
+============================================================
+[1] 2012-08-07 | BEXPHARMA (bn) | sent=+1.00
+    BEXIMCO Pharmaceuticals রেকর্ড মুনাফা ঘোষণা করেছে
+    sim=0.550
+[2] 2026-01-09 | BEXPHARMA (bn) | sent=00.00
+    BEXIMCO Pharmaceuticals বার্ষিক সাধারণ সভা অনুষ্ঠিত
+    sim=0.538
+[3] 2025-05-14 | BEXPHARMA (bn) | sent=00.00
+    BEXIMCO Pharmaceuticals বার্ষিক সাধারণ সভা অনুষ্ঠিত
+    sim=0.538
+
+============================================================
+QUERY: BRAC Bank
+  filter stock: BRACBANK
+  filter language: bn
+============================================================
+[1] 2019-09-30 | BRACBANK (bn) | sent=00.00
+    BRAC Bank Limited বার্ষিক সাধারণ সভা অনুষ্ঠিত
+    sim=0.908
+[2] 2022-03-04 | BRACBANK (bn) | sent=-1.00
+    BRAC Bank Limited এর সিইও ঋণ জালিয়াতিতে গ্রেফতার
+    sim=0.865
+[3] 2016-02-12 | BRACBANK (bn) | sent=+1.00
+    BRAC Bank Limited তৃতীয় প্রান্তিকে লক্ষ্যমাত্রা অর্জন করতে পারেনি
+    sim=0.860

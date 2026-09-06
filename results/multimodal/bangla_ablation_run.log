@@ -1,0 +1,28 @@
+2026-09-06 14:50:25 | INFO     | bangla_ablation | Building language-filtered sentiment CSVs...
+2026-09-06 14:50:26 | INFO     | bangla_ablation |   bn: 634 rows   en: 922 rows   bi: 115718B (existing)
+2026-09-06 14:50:26 | INFO     | bangla_ablation | Running ablation on 29 stocks, 3 variants each
+2026-09-06 14:50:26 | INFO     | bangla_ablation |   [bilingual] 1/29 ACI
+2026-09-06 14:50:48 | INFO     | bangla_ablation |   [bilingual] 2/29 BANKASIA
+2026-09-06 14:51:27 | INFO     | bangla_ablation |   [bilingual] 3/29 BATBC
+2026-09-06 14:52:05 | INFO     | bangla_ablation |   [bilingual] 4/29 BEXIMCO
+2026-09-06 14:52:39 | INFO     | bangla_ablation |   [bilingual] 5/29 BEXPHARMA
+2026-09-06 14:53:09 | INFO     | bangla_ablation |   [bilingual] 6/29 BRACBANK
+2026-09-06 14:53:27 | INFO     | bangla_ablation |   [bilingual] 7/29 BSCCL
+2026-09-06 14:54:07 | INFO     | bangla_ablation |   [bilingual] 8/29 CUSTOMERS
+2026-09-06 14:54:49 | INFO     | bangla_ablation |   [bilingual] 9/29 DBBL
+2026-09-06 14:55:37 | INFO     | bangla_ablation |   [bilingual] 10/29 DUTCHBANGL
+2026-09-06 14:56:01 | INFO     | bangla_ablation |   [bilingual] 11/29 EBL
+2026-09-06 14:56:48 | INFO     | bangla_ablation |   [bilingual] 12/29 GP
+2026-09-06 14:57:17 | INFO     | bangla_ablation |   [bilingual] 13/29 HEIDELBCEM
+2026-09-06 14:57:57 | INFO     | bangla_ablation |   [bilingual] 14/29 ISLAMI BANK
+2026-09-06 14:58:17 | INFO     | bangla_ablation |   [bilingual] 15/29 JAMUNAOIL
+2026-09-06 14:58:41 | INFO     | bangla_ablation |   [bilingual] 16/29 LAFARGECEM
+2026-09-06 14:59:16 | INFO     | bangla_ablation |   [bilingual] 17/29 MARICO
+2026-09-06 14:59:32 | INFO     | bangla_ablation |   [bilingual] 18/29 MUTUALTRUST
+2026-09-06 14:59:49 | INFO     | bangla_ablation |   [bilingual] 19/29 NCCBANK
+2026-09-06 15:00:20 | INFO     | bangla_ablation |   [bilingual] 20/29 POWERGRID
+2026-09-06 15:00:46 | INFO     | bangla_ablation |   [bilingual] 21/29 PRIMEBANK
+2026-09-06 15:01:15 | INFO     | bangla_ablation |   [bilingual] 22/29 RENATA
+2026-09-06 15:02:15 | INFO     | bangla_ablation |   [bilingual] 23/29 ROBI
+2026-09-06 15:02:48 | INFO     | bangla_ablation |   [bilingual] 24/29 SIBL
+2026-09-06 15:03:21 | INFO     | bangla_ablation |   [bilingual] 25/29 SQURPHARMA

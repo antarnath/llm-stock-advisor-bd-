@@ -1,0 +1,22 @@
+============================================================
+BANGLA-ONLY vs ENGLISH-ONLY vs BILINGUAL ABLATION
+============================================================
+Stocks tested: 3
+Variants: bilingual, en_only, bn_only
+
+Mean test directional accuracy (Dir_Acc %) by variant:
+------------------------------------------------------------
+  bilingual     mean=49.88%  std=0.52%  n=3
+  en_only       mean=50.14%  std=0.62%  n=3
+  bn_only       mean=50.08%  std=0.35%  n=3
+
+KEY FINDINGS
+------------------------------------------------------------
+  Bilingual beats English-only by: -0.26pp
+  Bilingual beats Bangla-only by:  -0.20pp
+  Bangla-only beats English-only by: -0.06pp
+
+Interpretation:
+  Bilingual ≈ English-only; Bangla adds little on its own.
+  The Bangla contribution is marginal — discuss as limitation.
+============================================================
