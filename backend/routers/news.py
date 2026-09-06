@@ -1,26 +1,29 @@
-"""GET /stocks/{ticker}/news?days=7
+"""POST /news/refresh — trigger a news ingestion pass.
 
-Wraps Phase 10's impact_reader.read_recent_impact. Days is clamped
-between 1 and 30 by FastAPI's Query validation.
+This is a stub for now: the real pipeline (scripts/build_news_index.py)
+takes minutes. We expose an endpoint so the UI can trigger it; the actual
+implementation can be wired up later via subprocess.run(...) or a Celery job.
 """
-from fastapi import APIRouter, Query
 
-from backend.models import NewsItem, NewsOut
-from src.orchestrator.impact_reader import read_recent_impact
+from __future__ import annotations
 
-router = APIRouter(prefix="/stocks")
+from datetime import datetime, timezone
+
+from fastapi import APIRouter
+
+from backend.models import RefreshResponse
+
+router = APIRouter(tags=["news"])
 
 
-@router.get("/{ticker}/news", response_model=NewsOut)
-def get_news(
-    ticker: str,
-    days: int = Query(7, ge=1, le=30,
-                      description="Lookback window in days (1..30)"),
-) -> NewsOut:
-    """Return Phase 9 news_impact rows for `ticker` from the last `days` days."""
-    code = ticker.upper().strip()
-    rows = read_recent_impact(code, days=days)
-    return NewsOut(
-        ticker=code, days=days,
-        items=[NewsItem(**r) for r in rows],
+@router.post("/news/refresh", response_model=RefreshResponse)
+async def refresh_news() -> RefreshResponse:
+    """Returns a stub response — wire to scripts/build_news_index.py later."""
+    return RefreshResponse(
+        triggered=False,
+        message=(
+            "News refresh is not yet wired up via API. "
+            f"Run `.venv/bin/python scripts/build_news_index.py` manually. "
+            f"(received at {datetime.now(timezone.utc).isoformat()})"
+        ),
     )

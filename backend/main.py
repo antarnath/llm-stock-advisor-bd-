@@ -1,79 +1,81 @@
-"""DSE Advisor API — Phase 11 thin FastAPI service.
+"""FastAPI app entry point — DSE Advisor backend.
 
-Run:
-    .venv/bin/uvicorn backend.main:app --host 0.0.0.0 --port 8000
+Usage:
+    .venv/bin/uvicorn backend.main:app --reload --port 8000
 
-CORS open for http://localhost:3000 (Next.js dev server, Phase 12).
-For a real deployment, tighten allow_origins — that's v2.
+Swagger UI: http://localhost:8000/docs
 """
+
+from __future__ import annotations
+
+import logging
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.db import init_db
-from backend.routers import ask, freshness, health, news, settings, stocks
-from backend.settings_store import apply_to_environ
 from src.utils.config import ensure_dirs
+
+# Routers
+from backend.routers import (
+    ask as ask_router,
+    freshness as freshness_router,
+    health as health_router,
+    news as news_router,
+    portfolio as portfolio_router,
+    settings as settings_router,
+    stocks as stocks_router,
+    xai as xai_router,
+)
+
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
+)
+logger = logging.getLogger("backend")
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Startup: ensure dirs + chat_log table exist + apply saved LLM
-    settings to os.environ so the very first /ask picks them up. Shutdown:
-    nothing."""
+    """Create dirs once at startup; release on shutdown."""
     ensure_dirs()
-    init_db()
-    apply_to_environ()
+    logger.info("Backend ready: dirs ensured, routers mounted.")
     yield
+    logger.info("Backend shutting down.")
 
 
 app = FastAPI(
     title="DSE Advisor API",
-    version="1.0.0",
     description=(
-        "Thin FastAPI wrapper around Phase 10's Orchestrator. "
-        "Designed for the Phase 12 frontend."
+        "Backend for the LLM-Orchestrated Financial Advisor for the "
+        "Bangladesh Stock Exchange. Wires the multi-agent orchestrator "
+        "to an HTTP API."
     ),
+    version="1.0.0",
     lifespan=lifespan,
 )
 
+# Permissive CORS for local dev (frontend at :3000, docs in browser, etc.)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-    ],
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
-    allow_credentials=False,
 )
 
-app.include_router(health.router)
-app.include_router(stocks.router)
-app.include_router(news.router)
-app.include_router(freshness.router)
-app.include_router(ask.router)
-app.include_router(settings.router)
+# Mount all routers
+app.include_router(health_router.router)
+app.include_router(ask_router.router)
+app.include_router(freshness_router.router)
+app.include_router(stocks_router.router)
+app.include_router(portfolio_router.router)
+app.include_router(settings_router.router)
+app.include_router(news_router.router)
+app.include_router(xai_router.router)
 
 
-@app.get("/", include_in_schema=False)
-def root() -> dict:
-    """Tiny index — points at the built-in OpenAPI docs (/docs)."""
-    return {
-        "service":  "DSE Advisor API",
-        "version":  "1.0.0",
-        "docs":     "/docs",
-        "health":   "/healthz",
-        "endpoints": [
-            "GET  /healthz",
-            "GET  /stocks",
-            "GET  /stocks/{ticker}/prediction",
-            "GET  /stocks/{ticker}/news",
-            "GET  /freshness",
-            "POST /ask",
-            "GET  /settings",
-            "POST /settings",
-            "DELETE /settings",
-        ],
-    }
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("backend.main:app", host="127.0.0.1", port=8000, reload=False)

@@ -1,8 +1,8 @@
 # Portfolio Optimization
 
-**Duration**: 1 Week  
-**Started**: Week 22  
-**Status**: ⏸ Partial — basic rule-based sizing in `src/agents/portfolio_agent.py`; full MPT module (mean-variance, Black–Litterman, risk parity) deferred to thesis-stretch goals.
+**Duration**: 1 Week
+**Started**: Week 22
+**Status**: ✅ Complete — Mean-Variance + Risk Parity implemented in `src/portfolio/`.
 
 ---
 
@@ -661,4 +661,72 @@ Sector Allocation:
 
 **Next Phase**: Phase 12 — LLM Financial Advisor
 
-**Last Updated**: 2026-08-13
+---
+
+## ✅ What Was Actually Built
+
+A formal Mean-Variance + Risk Parity module in `src/portfolio/` that the
+multi-agent orchestrator can use for research-grade position sizing.
+
+```
+src/portfolio/
+├── __init__.py
+├── covariance.py         # Ledoit-Wolf shrinkage estimator
+├── mean_variance.py      # min-var, max-Sharpe, target-return
+├── risk_parity.py        # equal risk contribution (no return forecasts)
+└── __pycache__/
+
+scripts/
+├── test_portfolio.py     # 28 unit tests, all passing
+└── portfolio_demo.py     # end-to-end demo with multi-agent signals
+```
+
+### Key features
+
+| Feature | Detail |
+|---|---|
+| Covariance | Ledoit-Wolf shrinkage (2004 formula) on last 252 days; reduces n≈30 estimation error |
+| Min-variance | scipy SLSQP, long-only, per-stock cap from profile |
+| Max-Sharpe | Tangency portfolio using agent ensemble signals as expected returns |
+| Risk parity | Iterative proportional scaling (Spinu 2013); equal risk contribution |
+| Profile caps | Conservative 5%, Moderate 10%, Aggressive 20% per stock |
+| Output | `PortfolioResult` dataclass with weights, ER, vol, Sharpe, shrinkage δ |
+
+### End-to-end pipeline
+
+```
+Multi-agent signals (30 stocks)
+        ↓
+Annualized covariance (Ledoit-Wolf, 252d)
+        ↓
+Markowitz optimizer (long-only, profile cap)
+        ↓
+PortfolioResult { weights, ER, vol, Sharpe }
+```
+
+### Verified example output (moderate profile, max-Sharpe)
+
+| Stock | Weight |
+|---|---|
+| EBL | 10.00% |
+| POWERGRID | 10.00% |
+| SQURPHARMA | 10.00% |
+| UNILEVER | 10.00% |
+| BEXPHARMA | 10.00% |
+| GP | 9.44% |
+| RENATA | 8.86% |
+| DSEX | 5.87% |
+
+ER = 2.53%/yr, vol = 8.57%/yr, Sharpe = 0.296 — sensible values for a
+DSE long-only equity portfolio.
+
+### Limitations / Future work
+
+- No Black-Litterman (Bayesian blend with views) — could be added if paper needs it
+- No transaction-cost-aware rebalancing
+- No sector-neutral constraints (currently concentration can exceed sector caps)
+- Static covariance — could be extended to rolling/shrinkage-with-regime
+
+---
+
+**Last Updated**: 2026-09-06

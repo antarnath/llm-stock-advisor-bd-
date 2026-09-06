@@ -1,68 +1,87 @@
-"""SQLite-backed chat log for the /ask endpoint.
+"""Singleton accessors for the heavy backend singletons.
 
-Single table; one INSERT per /ask call. We log the question text + reply
-+ session_id + latency_ms. We deliberately do NOT log IP / User-Agent /
-cookies — the API is unauthenticated in v1 and we don't want accidental
-PII.
-
-The DB lives at data/external/api/chat_log.sqlite, kept separate from
-the Phase 9 news files so vacuum/wipe operations on one don't affect
-the other.
+Each function is lazy + thread-safe so the FastAPI app starts quickly even
+when torch/torchvision/transformers are slow to import.
 """
+
 from __future__ import annotations
 
-import sqlite3
-from datetime import datetime, timezone
+import logging
+import os
+from pathlib import Path
+from threading import Lock
+from typing import Optional
 
-from src.utils.config import EXTERNAL_DATA_DIR
+logger = logging.getLogger(__name__)
 
-DB_PATH = EXTERNAL_DATA_DIR / "api" / "chat_log.sqlite"
+_PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
-
-SCHEMA = """
-CREATE TABLE IF NOT EXISTS chat_log (
-    id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    ts          TEXT NOT NULL,           -- ISO 8601 UTC, e.g. 2026-08-17T10:30:00+00:00
-    session_id  TEXT,                    -- nullable; client-supplied
-    question    TEXT NOT NULL,
-    reply       TEXT NOT NULL,
-    latency_ms  INTEGER
-);
-CREATE INDEX IF NOT EXISTS chat_log_ts_idx      ON chat_log(ts);
-CREATE INDEX IF NOT EXISTS chat_log_session_idx ON chat_log(session_id);
-"""
+_ORCH: Optional[object] = None
+_ORCH_LOCK = Lock()
 
 
-def _connect() -> sqlite3.Connection:
-    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
-    return sqlite3.connect(DB_PATH)
+def get_orchestrator(force_reload: bool = False):
+    """Return the lazily-instantiated Orchestrator singleton."""
+    global _ORCH
+    if _ORCH is not None and not force_reload:
+        return _ORCH
+    with _ORCH_LOCK:
+        if _ORCH is not None and not force_reload:
+            return _ORCH
+        try:
+            from src.orchestrator import Orchestrator
+            from src.llm import LLMClient
+            from src.agents.orchestrator import STOCK_UNIVERSE
+            from src.orchestrator.ticker_resolver import resolve_ticker
+            from src.utils.config import TOP_30_DSE_STOCKS
 
+            # Build a custom LLMClient from the persisted settings
+            provider = os.getenv("LLM_PROVIDER", "stub")
+            model = os.getenv("LLM_MODEL", "stub-template-v1")
+            base_url = os.getenv("LLM_BASE_URL", "")
+            api_key = os.getenv("LLM_API_KEY", "")
+            llm = LLMClient(provider=provider, model=model,
+                            base_url=base_url or None, api_key=api_key or None)
 
-def init_db() -> None:
-    """Create the table on startup. Idempotent."""
-    with _connect() as c:
-        c.executescript(SCHEMA)
-
-
-def log_chat(*, question: str, reply: str,
-             session_id: str | None, latency_ms: int) -> None:
-    """Insert one row. Never raises — logs the error and returns."""
-    try:
-        with _connect() as c:
-            c.execute(
-                "INSERT INTO chat_log "
-                "(ts, session_id, question, reply, latency_ms) "
-                "VALUES (?,?,?,?,?)",
-                (datetime.now(timezone.utc).isoformat(),
-                 session_id, question, reply, int(latency_ms)),
+            orch = Orchestrator(
+                project_root=_PROJECT_ROOT,
+                llm_client=llm,
             )
-    except sqlite3.Error as exc:
-        # A logging failure must not break the API response.
-        from src.utils.logger import get_logger
-        get_logger("backend.db").error(f"log_chat failed: {exc}")
+            _ORCH = orch
+            return _ORCH
+        except Exception as e:
+            logger.exception("Failed to build Orchestrator singleton: %s", e)
+            return None
 
 
-def count_chats() -> int:
-    """Test helper — total rows."""
-    with _connect() as c:
-        return c.execute("SELECT COUNT(*) FROM chat_log").fetchone()[0]
+def reset_orchestrator() -> None:
+    """Drop the cached orchestrator so the next call rebuilds it."""
+    global _ORCH
+    with _ORCH_LOCK:
+        _ORCH = None
+
+
+def reload_orchestrator_with_settings(provider: str, model: str,
+                                       base_url: str, api_key: str):
+    """Apply new settings + rebuild the orchestrator singleton."""
+    global _ORCH
+    with _ORCH_LOCK:
+        # Push env so subsequent cold starts also pick them up
+        os.environ["LLM_PROVIDER"] = provider
+        os.environ["LLM_MODEL"] = model
+        if base_url:
+            os.environ["LLM_BASE_URL"] = base_url
+        else:
+            os.environ.pop("LLM_BASE_URL", None)
+        if api_key:
+            os.environ["LLM_API_KEY"] = api_key
+        else:
+            os.environ.pop("LLM_API_KEY", None)
+
+        from src.llm import LLMClient
+        from src.orchestrator import Orchestrator
+
+        llm = LLMClient(provider=provider, model=model,
+                        base_url=base_url or None, api_key=api_key or None)
+        _ORCH = Orchestrator(project_root=_PROJECT_ROOT, llm_client=llm)
+        return _ORCH

@@ -1,7 +1,6 @@
-"""Phase 11 — FastAPI backend exposing Phase 10's Orchestrator over HTTP.
+"""Backend package — FastAPI app exposing the LLM-orchestrated advisor
+over HTTP.
 
-Run:
-    .venv/bin/uvicorn backend.main:app --host 0.0.0.0 --port 8000
-
-See backend/main.py for the app definition and routers/* for endpoints.
+Public API surface lives in `main.py` and the per-feature routers
+in `backend.routers.*`.
 """

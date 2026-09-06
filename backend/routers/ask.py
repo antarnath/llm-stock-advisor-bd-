@@ -1,49 +1,41 @@
-"""POST /ask — wraps Phase 10's Orchestrator.answer() and logs each
-exchange to chat_log.sqlite.
+"""POST /ask — main chat endpoint.
 
-The Orchestrator is a module-level singleton; NewsStore and the
-prediction CSV open fresh per request, which is cheap enough for v1
-single-user traffic.
+Pipeline:
+  1. Resolve ticker from the question (src.orchestrator.ticker_resolver)
+  2. If resolved → run 4 specialist agents (src.agents.Orchestrator)
+  3. Always → multilingual FAISS RAG over the news corpus
+  4. Build a context block + system prompt
+  5. LLM (or template fallback) → return natural-language reply
 """
-import time
+
+from __future__ import annotations
+
+import logging
 
 from fastapi import APIRouter, HTTPException
 
-from backend.db import log_chat
 from backend.models import AskRequest, AskResponse
-from src.orchestrator.orchestrator import Orchestrator
+from backend.db import get_orchestrator
 
-router = APIRouter()
-
-# Shared singleton — orchestrator is stateless. Reusing across requests
-# means we don't re-create the HTTP-client dispatch on every call.
-_orch = Orchestrator()
+logger = logging.getLogger(__name__)
+router = APIRouter(tags=["chat"])
 
 
 @router.post("/ask", response_model=AskResponse)
-def ask(req: AskRequest) -> AskResponse:
-    """Answer one user question.
-
-    Latency is wall-clock for THIS endpoint, including the orchestrator's
-    internal reads and (when configured) the external LLM call.
-    """
-    if not req.question.strip():
-        # Pydantic's min_length=1 should catch this, but be defensive.
-        raise HTTPException(400, "empty question")
-
-    t0 = time.perf_counter()
+async def ask(req: AskRequest) -> AskResponse:
+    orch = get_orchestrator()
+    if orch is None:
+        raise HTTPException(status_code=503,
+                            detail="Orchestrator not available")
     try:
-        reply = _orch.answer(req.question)
-    except Exception as exc:                                # noqa: BLE001
-        # Orchestrator.answer() already swallows most errors; this guard
-        # exists for truly unexpected failures (disk full, OOM, etc.).
-        raise HTTPException(502, f"orchestrator failed: {exc}")
-
-    latency_ms = int((time.perf_counter() - t0) * 1000)
-    log_chat(
-        question=req.question, reply=reply,
-        session_id=req.session_id, latency_ms=latency_ms,
-    )
-    return AskResponse(
-        reply=reply, session_id=req.session_id, latency_ms=latency_ms,
-    )
+        result = orch.chat(req.question)
+        return AskResponse(
+            reply=result.reply,
+            ticker=result.ticker,
+            tools_called=list(result.tools_called or []),
+            mode=result.mode,
+            tokens=int(getattr(result, "tokens", 0) or 0),
+        )
+    except Exception as e:
+        logger.exception("/ask failed")
+        raise HTTPException(status_code=500, detail=str(e))

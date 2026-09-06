@@ -119,6 +119,39 @@ LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
 
+# ---------------------------------------------------------------------------
+# Stock metadata loader
+# ---------------------------------------------------------------------------
+
+def load_stock_meta() -> dict:
+    """Return a dict {ticker: {"name": ..., "sector": ...}}.
+
+    Reads the most recent row of each `data/processed/{TICKER}_processed_v2.csv`
+    so we can render ticker → name + sector for UI lists without
+    needing a separate metadata file.
+    """
+    import pandas as pd
+    out = {}
+    for code in TOP_30_DSE_STOCKS:
+        path = PROCESSED_DATA_DIR / f"{code}_processed_v2.csv"
+        if not path.exists():
+            out[code] = {"name": code, "sector": ""}
+            continue
+        try:
+            df = pd.read_csv(path)
+            if df.empty or "name" not in df.columns:
+                out[code] = {"name": code, "sector": ""}
+                continue
+            row = df.iloc[-1]
+            out[code] = {
+                "name": str(row.get("name", code) or code),
+                "sector": str(row.get("sector", "") or ""),
+            }
+        except Exception:
+            out[code] = {"name": code, "sector": ""}
+    return out
+
+
 def get_device():
     """Return torch device (CPU/CUDA) once torch is installed.
 
@@ -155,7 +188,7 @@ def ensure_dirs():
         BASELINE_RESULTS_DIR, BASELINE_PLOTS_DIR, DL_RESULTS_DIR, DL_PLOTS_DIR,
         SENTIMENT_RESULTS_DIR, SENTIMENT_PLOTS_DIR,
         MULTIMODAL_MODELS_DIR, MULTIMODAL_RESULTS_DIR, MULTIMODAL_PLOTS_DIR,
-        LOGS_DIR, PHASES_DIR, TESTS_DIR, NOTEBOOKS_DIR,
+        LOGS_DIR, TESTS_DIR, NOTEBOOKS_DIR,
     ]:
         d.mkdir(parents=True, exist_ok=True)
 

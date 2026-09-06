@@ -190,8 +190,17 @@ report_bluprint*.jpg
 *.zip
 
 # -----------------------------------------------------------------------------
+# 16. Local trash / scratch folder (never tracked)
+# -----------------------------------------------------------------------------
+# Used to quarantine obsolete files (old PPT scripts, old guides, etc.)
+# before permanent deletion. Delete with: rm -rf trash/
+trash/
+
+
+# -----------------------------------------------------------------------------
 # End of .gitignore
 # -----------------------------------------------------------------------------
 dataset_hf/
 models/rag/
 results/rag_corpus_truncated.csv
+backend/.settings.json

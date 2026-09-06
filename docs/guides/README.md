@@ -26,11 +26,11 @@ This folder contains detailed guides for each major capability in the project. W
 | 10 | [Explainable AI](10_explainable_ai.md) | ✅ | SHAP + LIME on all 30 stocks, NL explanations |
 | 11 | [RAG System](11_rag_system.md) | ✅ | FAISS index, multilingual query (en + bn) |
 | 12 | [Multi-Agent System](12_multi_agent_system.md) | ✅ | 4 specialist agents + orchestrator |
-| 13 | [Portfolio Optimization](13_portfolio_optimization.md) | ⏸ Partial | Rule-based sizing done; full MPT deferred |
-| 14 | [LLM Financial Advisor](14_llm_financial_advisor.md) | ⏸ Partial | Chat UI scaffolded; LLM integration pending |
+| 13 | [Portfolio Optimization](13_portfolio_optimization.md) | ✅ | Mean-Variance + Risk Parity (Ledoit-Wolf shrinkage) |
+| 14 | [LLM Financial Advisor](14_llm_financial_advisor.md) | ✅ | Orchestrator + 5-provider LLM client + FastAPI |
 | 15 | [Dashboard](15_dashboard.md) | ✅ | Next.js 14 frontend (chat, ticker, settings) |
-| 16 | [Research Paper](16_research_paper.md) | ⏸ Partial | Uniqueness analysis + ablation done; draft pending |
-| 17 | [Thesis Submission](17_thesis_submission.md) | 📝 Pending | Final compilation & submission |
+| 16 | [Research Paper](16_research_paper.md) | ✅ | Full draft with real numbers + figures + reproducibility |
+| 17 | [Thesis Submission](17_thesis_submission.md) | ✅ | LaTeX built, all tests passing, ready for advisor review |
 | 18 | [GRU + CNN-LSTM Extra](18_gru_cnnlstm_extra.md) | 📝 Deferred | Supplementary DL architectures |
 | 19 | [FinGPT + BanglaBERT Extra](19_fingpt_banglabert_extra.md) | 📝 Deferred | GPU-only advanced sentiment |
 | 20 | [Advanced Multimodal Extra](20_advanced_multimodal_extra.md) | 📝 Deferred | Macro + per-event fusion experiments |
