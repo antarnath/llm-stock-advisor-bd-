@@ -60,6 +60,7 @@ from src.data_processing.multimodal_dataset import prepare_multimodal_sequences
 from src.training.architectures.multimodal_lstm import (
     MultimodalLSTMEarly,
     MultimodalLSTMLate,
+    MultimodalLSTMAttention,
 )
 
 
@@ -132,7 +133,11 @@ class MultimodalTrainer:
             return MultimodalLSTMLate(
                 input_dim_price=n_price, input_dim_sentiment=n_sent,
             ).to(self.device)
-        raise ValueError(f"Unknown fusion: {fusion!r}. Choose 'early' or 'late'.")
+        if fusion == "attention":
+            return MultimodalLSTMAttention(
+                input_dim_price=n_price, input_dim_sentiment=n_sent,
+            ).to(self.device)
+        raise ValueError(f"Unknown fusion: {fusion!r}. Choose 'early', 'late', or 'attention'.")
 
     # ---- Single training pass ----
 
@@ -485,8 +490,8 @@ class MultimodalTrainer:
 
 def main():
     parser = argparse.ArgumentParser(description="Train Multimodal LSTM per stock (Phase 7).")
-    parser.add_argument("--fusion", choices=["early", "late", "both"], default="both",
-                        help="Fusion strategy to train (default: both)")
+    parser.add_argument("--fusion", choices=["early", "late", "attention", "all"], default="all",
+                        help="Fusion strategy to train (default: all)")
     parser.add_argument("--max-stocks", type=int, default=None, help="Limit to N stocks (debug).")
     parser.add_argument("--epochs", type=int, default=MM_EPOCHS, help="Max epochs per stock.")
     parser.add_argument("--batch-size", type=int, default=MM_BATCH_SIZE, help="Batch size.")
@@ -499,7 +504,7 @@ def main():
         patience=args.patience,
     )
 
-    fusions = ["early", "late"] if args.fusion == "both" else [args.fusion]
+    fusions = ["early", "late", "attention"] if args.fusion == "all" else [args.fusion]
     for fusion in fusions:
         trainer.train_all_stocks(fusion=fusion, max_stocks=args.max_stocks)
 

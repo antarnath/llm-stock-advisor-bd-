@@ -2,8 +2,9 @@
 Multimodal Inference — Phase 7 (price + sentiment).
 
 Loads each {STOCK}_best_mm_{fusion}.pkl sidecar + matching .pt state_dict,
-reconstructs the multimodal LSTM (early or late fusion), and produces N-day
-return predictions using the iterative feature-update trick from dl_predict.
+reconstructs the multimodal LSTM (early, late, or attention fusion), and
+produces N-day return predictions using the iterative feature-update trick
+from dl_predict.
 
 KEY DIFFERENCE vs Phase 4 inference:
 - Sentiment window is FROZEN at the last observed 60-day window and replicated
@@ -17,7 +18,7 @@ plus a `fusion_strategy` column).
 
 Usage:
     python src/inference/mm_predict.py --fusion early
-    python src/inference/mm_predict.py --fusion both --days 5
+    python src/inference/mm_predict.py --fusion all --days 5
     python src/inference/mm_predict.py --stock GP --fusion early --days 5
 """
 
@@ -328,8 +329,8 @@ def predict_all_stocks(fusion: str, days: int = 5, max_stocks: int | None = None
 
 def main():
     parser = argparse.ArgumentParser(description="Generate Multimodal LSTM predictions (Phase 7).")
-    parser.add_argument("--fusion", choices=["early", "late", "both"], default="both",
-                        help="Which fusion(s) to run (default: both)")
+    parser.add_argument("--fusion", choices=["early", "late", "attention", "all"], default="all",
+                        help="Which fusion(s) to run (default: all)")
     parser.add_argument("--days", type=int, default=5, help="Days ahead (default: 5).")
     parser.add_argument("--stock", type=str, default=None, help="Predict a single stock only.")
     parser.add_argument("--max-stocks", type=int, default=None, help="Limit to N stocks (debug).")
@@ -340,7 +341,7 @@ def main():
     logger.info("=" * 70)
 
     if args.stock:
-        fusions = ["early", "late"] if args.fusion == "both" else [args.fusion]
+        fusions = ["early", "late", "attention"] if args.fusion == "all" else [args.fusion]
         for fusion in fusions:
             preds = predict_stock(args.stock, days=args.days, fusion=fusion)
             if preds:
@@ -351,7 +352,7 @@ def main():
                 logger.error(f"❌ No predictions for {args.stock} ({fusion})")
         return
 
-    fusions = ["early", "late"] if args.fusion == "both" else [args.fusion]
+    fusions = ["early", "late", "attention"] if args.fusion == "all" else [args.fusion]
     for fusion in fusions:
         logger.info(f"\n{'=' * 70}\n▶ Fusion: {fusion.upper()}\n{'=' * 70}")
         predict_all_stocks(fusion=fusion, days=args.days, max_stocks=args.max_stocks)

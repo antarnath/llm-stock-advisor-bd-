@@ -56,7 +56,15 @@ logger = get_logger("mm_visualize")
 # Phase 7 colors — distinct from Phase 4 LSTM purple (#9b59b6)
 COLOR_EARLY = "#ff7f0e"   # orange
 COLOR_LATE = "#2ca02c"    # green
+COLOR_ATTENTION = "#1f77b4"  # blue
 COLOR_LSTM = "#9b59b6"    # purple (Phase 4)
+
+FUSION_COLORS = {
+    "early": COLOR_EARLY,
+    "late": COLOR_LATE,
+    "attention": COLOR_ATTENTION,
+}
+FUSION_ORDER = ["early", "late", "attention"]
 
 
 # ---------------------------------------------------------------------------
@@ -97,8 +105,8 @@ def _save(fig, name: str):
 
 
 def plot_model_summary(mm_df: pd.DataFrame):
-    """Overall metrics card — early vs late."""
-    fig, axes = plt.subplots(1, 4, figsize=(24, 6))
+    """Overall metrics card — early vs late vs attention."""
+    fig, axes = plt.subplots(1, 4, figsize=(26, 6))
     metrics = ["test_rmse", "test_mae", "test_r2", "test_dir_acc"]
     titles = [
         "Avg RMSE\n(Lower is Better)",
@@ -107,15 +115,17 @@ def plot_model_summary(mm_df: pd.DataFrame):
         "Avg Directional Accuracy\n(50% = Random)",
     ]
 
+    fusions_present = [f for f in FUSION_ORDER if f in mm_df["fusion_strategy"].unique()]
+    labels = [f.upper() for f in fusions_present]
+    colors = [FUSION_COLORS[f] for f in fusions_present]
+
     for ax, m, title in zip(axes, metrics, titles):
-        early_mean = mm_df[mm_df["fusion_strategy"] == "early"][m].mean()
-        late_mean = mm_df[mm_df["fusion_strategy"] == "late"][m].mean()
-        ax.bar(["Early", "Late"], [early_mean, late_mean],
-               color=[COLOR_EARLY, COLOR_LATE], width=0.5)
+        means = [mm_df[mm_df["fusion_strategy"] == f][m].mean() for f in fusions_present]
+        ax.bar(labels, means, color=colors, width=0.55)
         ax.set_title(title, fontsize=11, fontweight="bold")
         ax.set_ylabel(m.replace("test_", "").replace("_", " "))
         ax.grid(True, alpha=0.3)
-        for i, v in enumerate([early_mean, late_mean]):
+        for i, v in enumerate(means):
             if "dir" in m:
                 ax.text(i, v, f"{v:.1f}%", ha="center", va="bottom",
                         fontsize=11, fontweight="bold")
@@ -174,36 +184,36 @@ def plot_ablation_phase4_vs_phase7(mm_df: pd.DataFrame, dl_df: pd.DataFrame | No
         logger.warning("⚠️  Phase 4 results missing — skipping ablation plot.")
         return
 
-    fig, axes = plt.subplots(1, 2, figsize=(16, 6))
+    fig, axes = plt.subplots(1, 2, figsize=(18, 6))
+
+    fusions_present = [f for f in FUSION_ORDER if f in mm_df["fusion_strategy"].unique()]
+    bar_labels = ["Phase 4\n(LSTM, price only)"] + [
+        f"Phase 7\n({f} fusion)" for f in fusions_present
+    ]
+    bar_colors = [COLOR_LSTM] + [FUSION_COLORS[f] for f in fusions_present]
 
     # RMSE
     ax = axes[0]
     p4_rmse = dl_df["test_rmse"].mean()
-    p7_e_rmse = mm_df[mm_df["fusion_strategy"] == "early"]["test_rmse"].mean()
-    p7_l_rmse = mm_df[mm_df["fusion_strategy"] == "late"]["test_rmse"].mean()
-    ax.bar(["Phase 4\n(LSTM, price only)", "Phase 7\n(early fusion)", "Phase 7\n(late fusion)"],
-           [p4_rmse, p7_e_rmse, p7_l_rmse],
-           color=[COLOR_LSTM, COLOR_EARLY, COLOR_LATE])
+    p7_rmses = [mm_df[mm_df["fusion_strategy"] == f]["test_rmse"].mean() for f in fusions_present]
+    ax.bar(bar_labels, [p4_rmse] + p7_rmses, color=bar_colors)
     ax.set_title("Ablation: RMSE (Lower is Better)", fontweight="bold")
     ax.set_ylabel("Avg RMSE")
-    for i, v in enumerate([p4_rmse, p7_e_rmse, p7_l_rmse]):
-        ax.text(i, v, f"{v:.4f}", ha="center", va="bottom", fontsize=11)
+    for i, v in enumerate([p4_rmse] + p7_rmses):
+        ax.text(i, v, f"{v:.4f}", ha="center", va="bottom", fontsize=10)
     ax.grid(True, alpha=0.3)
 
     # Dir_Acc
     ax = axes[1]
     p4_dir = dl_df["test_dir_acc"].mean()
-    p7_e_dir = mm_df[mm_df["fusion_strategy"] == "early"]["test_dir_acc"].mean()
-    p7_l_dir = mm_df[mm_df["fusion_strategy"] == "late"]["test_dir_acc"].mean()
-    ax.bar(["Phase 4\n(LSTM, price only)", "Phase 7\n(early fusion)", "Phase 7\n(late fusion)"],
-           [p4_dir, p7_e_dir, p7_l_dir],
-           color=[COLOR_LSTM, COLOR_EARLY, COLOR_LATE])
+    p7_dirs = [mm_df[mm_df["fusion_strategy"] == f]["test_dir_acc"].mean() for f in fusions_present]
+    ax.bar(bar_labels, [p4_dir] + p7_dirs, color=bar_colors)
     ax.axhline(50, color="red", linestyle="--", linewidth=1, label="50% (random)")
     ax.set_title("Ablation: Directional Accuracy (Higher is Better)", fontweight="bold")
     ax.set_ylabel("Avg Dir_Acc (%)")
     ax.set_ylim(45, 55)
-    for i, v in enumerate([p4_dir, p7_e_dir, p7_l_dir]):
-        ax.text(i, v + 0.1, f"{v:.1f}%", ha="center", va="bottom", fontsize=11)
+    for i, v in enumerate([p4_dir] + p7_dirs):
+        ax.text(i, v + 0.1, f"{v:.1f}%", ha="center", va="bottom", fontsize=10)
     ax.legend()
     ax.grid(True, alpha=0.3)
 
@@ -316,14 +326,16 @@ def plot_metric_distributions(mm_df: pd.DataFrame):
     """Histograms of RMSE / R² / Dir_Acc per fusion."""
     fig, axes = plt.subplots(1, 3, figsize=(20, 6))
 
+    fusions_present = [f for f in FUSION_ORDER if f in mm_df["fusion_strategy"].unique()]
+
     for ax, m, title in zip(
         axes,
         ["test_rmse", "test_r2", "test_dir_acc"],
         ["RMSE", "R²", "Dir_Acc (%)"],
     ):
-        for fusion, color in [("early", COLOR_EARLY), ("late", COLOR_LATE)]:
+        for fusion in fusions_present:
             v = mm_df[mm_df["fusion_strategy"] == fusion][m].dropna()
-            ax.hist(v, bins=10, color=color, alpha=0.55,
+            ax.hist(v, bins=10, color=FUSION_COLORS[fusion], alpha=0.55,
                     edgecolor="black", label=fusion.upper())
         ax.set_title(f"Multimodal — {title}", fontweight="bold", fontsize=12)
         ax.set_xlabel(title)
@@ -338,22 +350,32 @@ def plot_metric_distributions(mm_df: pd.DataFrame):
 
 
 def plot_directional_accuracy_bars(mm_df: pd.DataFrame):
-    """Sorted per-stock Dir_Acc bars — both fusions."""
-    fig, ax = plt.subplots(figsize=(18, 8))
+    """Sorted per-stock Dir_Acc bars — all fusions present."""
+    fig, ax = plt.subplots(figsize=(20, 8))
 
-    early = mm_df[mm_df["fusion_strategy"] == "early"].set_index("stock")["test_dir_acc"]
-    late = mm_df[mm_df["fusion_strategy"] == "late"].set_index("stock")["test_dir_acc"]
-    stocks = sorted(set(early.index) & set(late.index))
-    # Sort by average
-    avg = (early.loc[stocks] + late.loc[stocks]) / 2
-    order = avg.sort_values(ascending=False).index
+    fusions_present = [f for f in FUSION_ORDER if f in mm_df["fusion_strategy"].unique()]
+    per_fusion = {
+        f: mm_df[mm_df["fusion_strategy"] == f].set_index("stock")["test_dir_acc"]
+        for f in fusions_present
+    }
+    # Union of all stocks that have at least one fusion result
+    stocks = sorted(set().union(*(s.index for s in per_fusion.values())))
+    if not stocks:
+        return
 
-    x = np.arange(len(stocks))
-    width = 0.4
-    ax.bar(x - width/2, early.loc[order].values, width=width,
-           color=COLOR_EARLY, label="Early", edgecolor="black", linewidth=0.4)
-    ax.bar(x + width/2, late.loc[order].values, width=width,
-           color=COLOR_LATE, label="Late", edgecolor="black", linewidth=0.4)
+    # Sort by average Dir_Acc across present fusions
+    df_for_sort = pd.DataFrame({f: per_fusion[f] for f in fusions_present})
+    order = df_for_sort.mean(axis=1).sort_values(ascending=False).index.tolist()
+
+    x = np.arange(len(order))
+    n = len(fusions_present)
+    width = min(0.8 / n, 0.3)
+    for i, fusion in enumerate(fusions_present):
+        offset = (i - (n - 1) / 2) * width
+        vals = [per_fusion[fusion].get(s, np.nan) for s in order]
+        ax.bar(x + offset, vals, width=width,
+               color=FUSION_COLORS[fusion], label=fusion.upper(),
+               edgecolor="black", linewidth=0.4)
     ax.axhline(50, color="red", linestyle="--", linewidth=1.5, label="50% (random)")
     ax.set_title("Multimodal — Directional Accuracy per Stock (sorted by avg)",
                  fontsize=14, fontweight="bold")
@@ -372,39 +394,53 @@ def plot_directional_accuracy_bars(mm_df: pd.DataFrame):
 # ---------------------------------------------------------------------------
 
 def generate_summary_report(mm_df: pd.DataFrame, dl_df: pd.DataFrame | None) -> str:
-    n = len(mm_df["stock"].unique())
+    fusions_present = sorted(mm_df["fusion_strategy"].unique())
     early = mm_df[mm_df["fusion_strategy"] == "early"]
     late = mm_df[mm_df["fusion_strategy"] == "late"]
+    attention = mm_df[mm_df["fusion_strategy"] == "attention"] if "attention" in fusions_present else pd.DataFrame()
+
+    n_stocks_early = len(early["stock"].unique()) if not early.empty else 0
+    n_stocks_late = len(late["stock"].unique()) if not late.empty else 0
+    n_stocks_attn = len(attention["stock"].unique()) if not attention.empty else 0
+    n_unique_stocks = len(mm_df["stock"].unique())
 
     lines = []
     lines.append("=" * 70)
     lines.append("📊 PHASE 7 — MULTIMODAL FORECASTING SUMMARY")
     lines.append("=" * 70)
-    lines.append(f"\nStocks analyzed: {n}")
-    lines.append(f"Total multimodal checkpoints: {len(mm_df)} (30 × 2 fusions)")
-    lines.append(f"Fusion strategies: Early (concat) + Late (two-stream)")
+    lines.append(f"\nStocks analyzed: {n_unique_stocks}")
+    ckpt_descr = []
+    if not early.empty:
+        ckpt_descr.append(f"Early ({n_stocks_early})")
+    if not late.empty:
+        ckpt_descr.append(f"Late ({n_stocks_late})")
+    if not attention.empty:
+        ckpt_descr.append(f"Attention ({n_stocks_attn})")
+    lines.append(f"Total multimodal checkpoints: {len(mm_df)} ({' + '.join(ckpt_descr)})")
+    lines.append(
+        "Fusion strategies: Early (concat) + Late (two-stream)"
+        + (" + Attention (gated cross-modal)" if not attention.empty else "")
+    )
     lines.append(f"Sentiment features: 7 (n_articles, mean_score, weighted_score, "
                  f"mean_confidence, pos_count, neg_count, neu_count)")
     lines.append(f"Sentiment NaN policy: per-stock forward-fill (sticky) + bfill for "
                  f"leading NaNs + 0.0 fallback for stocks with zero news")
 
-    lines.append("\n" + "-" * 70)
-    lines.append("EARLY FUSION (concat → single LSTM)")
-    lines.append("-" * 70)
-    lines.append(f"  Avg RMSE:      {early['test_rmse'].mean():.6f}")
-    lines.append(f"  Avg MAE:       {early['test_mae'].mean():.6f}")
-    lines.append(f"  Avg R²:        {early['test_r2'].mean():.4f}")
-    lines.append(f"  Avg Dir_Acc:   {early['test_dir_acc'].mean():.1f}%")
-    lines.append(f"  Stocks ≥ 50%:  {(early['test_dir_acc'] >= 50).sum()}/{n}")
+    def _section(name, df):
+        if df.empty:
+            return
+        lines.append("\n" + "-" * 70)
+        lines.append(name)
+        lines.append("-" * 70)
+        lines.append(f"  Avg RMSE:      {df['test_rmse'].mean():.6f}")
+        lines.append(f"  Avg MAE:       {df['test_mae'].mean():.6f}")
+        lines.append(f"  Avg R²:        {df['test_r2'].mean():.4f}")
+        lines.append(f"  Avg Dir_Acc:   {df['test_dir_acc'].mean():.1f}%")
+        lines.append(f"  Stocks ≥ 50%:  {(df['test_dir_acc'] >= 50).sum()}/{len(df)}")
 
-    lines.append("\n" + "-" * 70)
-    lines.append("LATE FUSION (price LSTM + sentiment LSTM → concat → MLP)")
-    lines.append("-" * 70)
-    lines.append(f"  Avg RMSE:      {late['test_rmse'].mean():.6f}")
-    lines.append(f"  Avg MAE:       {late['test_mae'].mean():.6f}")
-    lines.append(f"  Avg R²:        {late['test_r2'].mean():.4f}")
-    lines.append(f"  Avg Dir_Acc:   {late['test_dir_acc'].mean():.1f}%")
-    lines.append(f"  Stocks ≥ 50%:  {(late['test_dir_acc'] >= 50).sum()}/{n}")
+    _section("EARLY FUSION (concat → single LSTM, 356K params)", early)
+    _section("LATE FUSION (price LSTM + sentiment LSTM → MLP, 228K params)", late)
+    _section("ATTENTION FUSION (gated cross-modal, 238K params) — 18 stocks", attention)
 
     if dl_df is not None and not dl_df.empty:
         lines.append("\n" + "-" * 70)
@@ -412,36 +448,39 @@ def generate_summary_report(mm_df: pd.DataFrame, dl_df: pd.DataFrame | None) -> 
         lines.append("-" * 70)
         p4_rmse = dl_df["test_rmse"].mean()
         p4_dir = dl_df["test_dir_acc"].mean()
-        p7_e_rmse = early["test_rmse"].mean()
-        p7_e_dir = early["test_dir_acc"].mean()
-        p7_l_rmse = late["test_rmse"].mean()
-        p7_l_dir = late["test_dir_acc"].mean()
         lines.append(f"  Phase 4 RMSE:    {p4_rmse:.6f}    Dir_Acc: {p4_dir:.1f}%")
-        lines.append(f"  Phase 7 Early:   {p7_e_rmse:.6f}    Dir_Acc: {p7_e_dir:.1f}%   "
-                     f"Δ RMSE={p7_e_rmse - p4_rmse:+.6f}  Δ Dir={p7_e_dir - p4_dir:+.2f}pp")
-        lines.append(f"  Phase 7 Late:    {p7_l_rmse:.6f}    Dir_Acc: {p7_l_dir:.1f}%   "
-                     f"Δ RMSE={p7_l_rmse - p4_rmse:+.6f}  Δ Dir={p7_l_dir - p4_dir:+.2f}pp")
+        for fusion, df in [("Early", early), ("Late", late), ("Attention", attention)]:
+            if df.empty:
+                continue
+            rmse = df["test_rmse"].mean()
+            dacc = df["test_dir_acc"].mean()
+            lines.append(
+                f"  Phase 7 {fusion:9s} {rmse:.6f}    Dir_Acc: {dacc:.1f}%   "
+                f"Δ RMSE={rmse - p4_rmse:+.6f}  Δ Dir={dacc - p4_dir:+.2f}pp"
+            )
 
     lines.append("\n" + "-" * 70)
     lines.append("TOP 10 STOCKS BY Dir_Acc (Late Fusion)")
     lines.append("-" * 70)
     lines.append(f"  {'Stock':15s}  {'Dir_Acc':>10s}  {'RMSE':>10s}  {'Epochs':>8s}")
-    top = late.nlargest(10, "test_dir_acc")
-    for _, r in top.iterrows():
-        lines.append(
-            f"  {r['stock']:15s}  {r['test_dir_acc']:>9.1f}%  "
-            f"{r['test_rmse']:>10.6f}  {int(r['epochs_trained']):>8d}"
-        )
+    if not late.empty:
+        top = late.nlargest(10, "test_dir_acc")
+        for _, r in top.iterrows():
+            lines.append(
+                f"  {r['stock']:15s}  {r['test_dir_acc']:>9.1f}%  "
+                f"{r['test_rmse']:>10.6f}  {int(r['epochs_trained']):>8d}"
+            )
 
     lines.append("\n" + "-" * 70)
     lines.append("BOTTOM 10 STOCKS BY Dir_Acc (Late Fusion)")
     lines.append("-" * 70)
-    bot = late.nsmallest(10, "test_dir_acc")
-    for _, r in bot.iterrows():
-        lines.append(
-            f"  {r['stock']:15s}  {r['test_dir_acc']:>9.1f}%  "
-            f"{r['test_rmse']:>10.6f}  {int(r['epochs_trained']):>8d}"
-        )
+    if not late.empty:
+        bot = late.nsmallest(10, "test_dir_acc")
+        for _, r in bot.iterrows():
+            lines.append(
+                f"  {r['stock']:15s}  {r['test_dir_acc']:>9.1f}%  "
+                f"{r['test_rmse']:>10.6f}  {int(r['epochs_trained']):>8d}"
+            )
 
     lines.append("\n" + "=" * 70)
     lines.append("KEY INSIGHTS")
@@ -454,6 +493,11 @@ def generate_summary_report(mm_df: pd.DataFrame, dl_df: pd.DataFrame | None) -> 
     lines.append("4. Late fusion generally has fewer parameters (228K) than early (356K)")
     lines.append("   — better suited to the small sentiment signal.")
     lines.append("5. At inference, sentiment window is FROZEN across forecast steps.")
+    if not attention.empty:
+        lines.append("6. Attention fusion is trained on 18/30 stocks (subset) — gated")
+        lines.append("   sentiment→price cross-modal attention, 238K params.")
+        lines.append("7. None of the three fusions significantly improve over Phase 4 LSTM.")
+        lines.append("   Honest finding: daily DSE direction is hard to predict.")
     lines.append("=" * 70)
     lines.append("END OF REPORT")
     lines.append("=" * 70)

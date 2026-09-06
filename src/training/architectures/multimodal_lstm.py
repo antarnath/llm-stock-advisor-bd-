@@ -201,6 +201,114 @@ class MultimodalLSTMLate(MultimodalBase):
 
 
 # ---------------------------------------------------------------------------
+# Attention fusion: gated cross-modal attention from sentiment → price
+# ---------------------------------------------------------------------------
+
+class MultimodalLSTMAttention(MultimodalBase):
+    """Two-stream + gated cross-modal attention.
+
+    Architecture (reconstructed from saved checkpoint state-dict):
+      price_lstm : 2-layer LSTM, hidden=128, input=27 (price features)
+      sent_lstm  : 1-layer LSTM, hidden=32,  input=7  (sentiment features)
+      q_proj     : Linear(32 → 128)  — query vector from sentiment
+      head       : MLP(256 → 64 → 1) over [h_layer0; h_layer1 ⊙ σ(q)]
+
+    The attention is a *gated* mechanism: the projected query is passed through
+    a sigmoid to produce a per-dimension gate in [0,1] that scales the final
+    price-layer hidden state. The gated layer-1 output is then concatenated
+    with the layer-0 hidden (256-dim) and fed to the MLP head.
+
+    Input:
+        price     (B, seq_len, 27)
+        sentiment (B, seq_len, 7)
+    Output:
+        (B, 1) — predicted next-day return
+    """
+
+    arch_name = "MultimodalLSTMAttention"
+    fusion = "attention"
+
+    def __init__(
+        self,
+        input_dim_price: int = 27,
+        input_dim_sentiment: int = 7,
+        hidden_dim_price: int = 128,
+        hidden_dim_sent: int = 32,
+        num_layers_price: int = 2,
+        num_layers_sent: int = 1,
+        dropout: float = 0.2,
+        dropout_sent: float = 0.1,
+        output_dim: int = 1,
+    ):
+        super().__init__()
+        self.input_dim_price = input_dim_price
+        self.input_dim_sentiment = input_dim_sentiment
+        self.hidden_dim_price = hidden_dim_price
+        self.hidden_dim_sent = hidden_dim_sent
+        self.num_layers_price = num_layers_price
+        self.num_layers_sent = num_layers_sent
+        self.dropout = dropout
+        self.dropout_sent = dropout_sent
+        self.output_dim = output_dim
+
+        self.price_lstm = nn.LSTM(
+            input_size=input_dim_price,
+            hidden_size=hidden_dim_price,
+            num_layers=num_layers_price,
+            batch_first=True,
+            dropout=dropout if num_layers_price > 1 else 0.0,
+        )
+        self.sent_lstm = nn.LSTM(
+            input_size=input_dim_sentiment,
+            hidden_size=hidden_dim_sent,
+            num_layers=num_layers_sent,
+            batch_first=True,
+            dropout=dropout_sent if num_layers_sent > 1 else 0.0,
+        )
+        # Query projection: maps sentiment final hidden → query of price-hidden size
+        self.q_proj = nn.Linear(hidden_dim_sent, hidden_dim_price)
+        # Head: input = concat(layer0_hidden, gated_layer1_hidden) = 2 * hidden_dim_price
+        self.head = nn.Sequential(
+            nn.Linear(hidden_dim_price * 2, 64),
+            nn.ReLU(),
+            nn.Dropout(dropout),
+            nn.Linear(64, output_dim),
+        )
+
+    def forward(self, price: torch.Tensor, sentiment: torch.Tensor) -> torch.Tensor:
+        # Encode both modalities
+        _, (h_price, _) = self.price_lstm(price)     # h_price: (num_layers, B, H_p)
+        _, (h_sent, _) = self.sent_lstm(sentiment)    # h_sent:  (num_layers, B, H_s)
+
+        h_layer0 = h_price[0]                              # (B, H_p)
+        h_layer1 = h_price[-1]                             # (B, H_p) — last layer
+
+        # Cross-modal gated attention
+        q = self.q_proj(h_sent[-1])                        # (B, H_p)
+        gate = torch.sigmoid(q)                            # (B, H_p) in [0, 1]
+        h_layer1_gated = h_layer1 * gate                    # (B, H_p) — element-wise gate
+
+        # Concat and predict
+        h = torch.cat([h_layer0, h_layer1_gated], dim=-1)   # (B, 2 * H_p)
+        return self.head(h)
+
+    def config_dict(self) -> dict:
+        return {
+            "arch": self.arch_name,
+            "fusion": self.fusion,
+            "input_dim_price": self.input_dim_price,
+            "input_dim_sentiment": self.input_dim_sentiment,
+            "hidden_dim_price": self.hidden_dim_price,
+            "hidden_dim_sent": self.hidden_dim_sent,
+            "num_layers_price": self.num_layers_price,
+            "num_layers_sent": self.num_layers_sent,
+            "dropout": self.dropout,
+            "dropout_sent": self.dropout_sent,
+            "output_dim": self.output_dim,
+        }
+
+
+# ---------------------------------------------------------------------------
 # Factory
 # ---------------------------------------------------------------------------
 
@@ -231,6 +339,18 @@ def build_multimodal(config: dict) -> MultimodalBase:
             dropout_sent=config["dropout_sent"],
             output_dim=config["output_dim"],
         )
+    if arch == MultimodalLSTMAttention.arch_name:
+        return MultimodalLSTMAttention(
+            input_dim_price=config["input_dim_price"],
+            input_dim_sentiment=config["input_dim_sentiment"],
+            hidden_dim_price=config["hidden_dim_price"],
+            hidden_dim_sent=config["hidden_dim_sent"],
+            num_layers_price=config["num_layers_price"],
+            num_layers_sent=config["num_layers_sent"],
+            dropout=config["dropout"],
+            dropout_sent=config["dropout_sent"],
+            output_dim=config["output_dim"],
+        )
     raise ValueError(f"Unknown multimodal arch: {arch!r}")
 
 
@@ -238,5 +358,6 @@ __all__ = [
     "MultimodalBase",
     "MultimodalLSTMEarly",
     "MultimodalLSTMLate",
+    "MultimodalLSTMAttention",
     "build_multimodal",
 ]

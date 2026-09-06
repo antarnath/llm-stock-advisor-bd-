@@ -3,13 +3,13 @@
 ======================================================================
 
 Stocks analyzed: 30
-Total multimodal checkpoints: 60 (30 × 2 fusions)
-Fusion strategies: Early (concat) + Late (two-stream)
+Total multimodal checkpoints: 78 (Early (30) + Late (30) + Attention (18))
+Fusion strategies: Early (concat) + Late (two-stream) + Attention (gated cross-modal)
 Sentiment features: 7 (n_articles, mean_score, weighted_score, mean_confidence, pos_count, neg_count, neu_count)
 Sentiment NaN policy: per-stock forward-fill (sticky) + bfill for leading NaNs + 0.0 fallback for stocks with zero news
 
 ----------------------------------------------------------------------
-EARLY FUSION (concat → single LSTM)
+EARLY FUSION (concat → single LSTM, 356K params)
 ----------------------------------------------------------------------
   Avg RMSE:      0.019758
   Avg MAE:       0.015573
@@ -18,7 +18,7 @@ EARLY FUSION (concat → single LSTM)
   Stocks ≥ 50%:  13/30
 
 ----------------------------------------------------------------------
-LATE FUSION (price LSTM + sentiment LSTM → concat → MLP)
+LATE FUSION (price LSTM + sentiment LSTM → MLP, 228K params)
 ----------------------------------------------------------------------
   Avg RMSE:      0.020010
   Avg MAE:       0.015769
@@ -27,11 +27,21 @@ LATE FUSION (price LSTM + sentiment LSTM → concat → MLP)
   Stocks ≥ 50%:  12/30
 
 ----------------------------------------------------------------------
+ATTENTION FUSION (gated cross-modal, 238K params) — 18 stocks
+----------------------------------------------------------------------
+  Avg RMSE:      0.034903
+  Avg MAE:       0.030190
+  Avg R²:        -4.1880
+  Avg Dir_Acc:   50.0%
+  Stocks ≥ 50%:  9/18
+
+----------------------------------------------------------------------
 ABLATION vs PHASE 4 (LSTM, PRICE ONLY)
 ----------------------------------------------------------------------
   Phase 4 RMSE:    0.019771    Dir_Acc: 49.8%
-  Phase 7 Early:   0.019758    Dir_Acc: 49.7%   Δ RMSE=-0.000013  Δ Dir=-0.04pp
-  Phase 7 Late:    0.020010    Dir_Acc: 49.8%   Δ RMSE=+0.000239  Δ Dir=-0.00pp
+  Phase 7 Early     0.019758    Dir_Acc: 49.7%   Δ RMSE=-0.000013  Δ Dir=-0.04pp
+  Phase 7 Late      0.020010    Dir_Acc: 49.8%   Δ RMSE=+0.000239  Δ Dir=-0.00pp
+  Phase 7 Attention 0.034903    Dir_Acc: 50.0%   Δ RMSE=+0.015132  Δ Dir=+0.22pp
 
 ----------------------------------------------------------------------
 TOP 10 STOCKS BY Dir_Acc (Late Fusion)
@@ -73,6 +83,10 @@ KEY INSIGHTS
 4. Late fusion generally has fewer parameters (228K) than early (356K)
    — better suited to the small sentiment signal.
 5. At inference, sentiment window is FROZEN across forecast steps.
+6. Attention fusion is trained on 18/30 stocks (subset) — gated
+   sentiment→price cross-modal attention, 238K params.
+7. None of the three fusions significantly improve over Phase 4 LSTM.
+   Honest finding: daily DSE direction is hard to predict.
 ======================================================================
 END OF REPORT
 ======================================================================
