@@ -1,8 +1,8 @@
-# PHASE 4xxx — Deep Learning Extension (GRU + CNN-LSTM) [DEFERRED]
+# Deep Learning Extension (GRU + CNN-LSTM)
 
-**Status**: � **Deferred — to be completed after Phase 4 (LSTM) ships**
-**Depends on**: Phase 4 (LSTM only) must be complete and benchmarked.
-**Goal**: Add the remaining two deep-learning architectures from the original Phase 4 spec, train them on the same leak-free data, and produce a 3-way comparison report.
+**Status**: 📝 Deferred — deferred until LSTM baseline is benchmarked.
+**Depends on**: LSTM baseline must be complete and benchmarked.
+**Goal**: Add the remaining two deep-learning architectures from the original spec, train them on the same leak-free data, and produce a 3-way comparison report.
 
 ---
 

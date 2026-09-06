@@ -56,24 +56,24 @@ def main():
     # =============================================
     # ROW 2: FEATURE ENGINEERING
     # =============================================
-    box(ax, 1.4, 1.5, 4.6, 0.8, "Feature Engineering (Phase 2)\n27 technical indicators + 7 sentiment features", C_DATA, fontsize=9)
+    box(ax, 1.4, 1.5, 4.6, 0.8, "Feature Engineering\n27 technical indicators + 7 sentiment features", C_DATA, fontsize=9)
 
     # =============================================
     # ROW 3: PREDICTION MODELS
     # =============================================
-    box(ax, 0.3, 2.7, 2.0, 1.1, "Baseline ML\n(Phase 3)\nLR / XGBoost", C_MODEL, fontsize=8)
-    box(ax, 2.5, 2.7, 2.0, 1.1, "Deep Learning\n(Phase 4-5)\nLSTM / Transformer", C_MODEL, fontsize=8)
-    box(ax, 4.7, 2.7, 2.0, 1.1, "Multimodal LSTM\n(Phase 7)\nEarly/Late/Attention", C_MODEL, fontsize=8)
+    box(ax, 0.3, 2.7, 2.0, 1.1, "Baseline ML\nLR / XGBoost", C_MODEL, fontsize=9)
+    box(ax, 2.5, 2.7, 2.0, 1.1, "Deep Learning\nLSTM / Transformer", C_MODEL, fontsize=9)
+    box(ax, 4.7, 2.7, 2.0, 1.1, "Multimodal LSTM\nEarly / Late / Attention", C_MODEL, fontsize=9)
 
     # =============================================
     # ROW 4: XAI LAYER
     # =============================================
-    box(ax, 1.4, 4.1, 4.6, 0.8, "Explainable AI (Phase 8) — SHAP / LIME", "#ef4444", fontsize=10)
+    box(ax, 1.4, 4.1, 4.6, 0.8, "Explainable AI — SHAP / LIME", "#ef4444", fontsize=10)
 
     # =============================================
     # ROW 5: MULTI-AGENT SYSTEM (signature contribution)
     # =============================================
-    ax.text(0.3, 6.2, "Multi-Agent System (Phase 10)", fontsize=11, fontweight="bold", color=C_OUT)
+    ax.text(0.3, 6.2, "Multi-Agent System", fontsize=11, fontweight="bold", color=C_OUT)
     ax.text(0.3, 5.95, "Each agent = specialist. Orchestrator = debate.", fontsize=8, color="#475569", style="italic")
 
     # 4 agents
@@ -85,7 +85,7 @@ def main():
     # Orchestrator
     box(ax, 7.2, 5.0, 1.8, 0.9, "Orchestrator\n(LLM debate)", "#a855f7", fontsize=9)
 
-    # RAG agent (Phase 9)
+    # RAG agent
     box(ax, 9.2, 5.0, 1.6, 0.9, "RAG Agent\n(News retrieval)", C_AGENT, fontsize=8)
 
     # =============================================
@@ -96,8 +96,8 @@ def main():
     # =============================================
     # ROW 7: USER INTERFACES
     # =============================================
-    box(ax, 1.4, 7.0, 4.6, 0.8, "REST API (Phase 12)\nFastAPI + JWT", C_USER, fontsize=9)
-    box(ax, 7.5, 7.0, 4.6, 0.8, "Web Dashboard (Phase 13)\nStreamlit / Next.js", C_USER, fontsize=9)
+    box(ax, 1.4, 7.0, 4.6, 0.8, "REST API\nFastAPI + JWT", C_USER, fontsize=9)
+    box(ax, 7.5, 7.0, 4.6, 0.8, "Web Dashboard\nStreamlit / Next.js", C_USER, fontsize=9)
     box(ax, 13.0, 7.0, 2.6, 0.8, "Daily Telegram\nBrief", C_USER, fontsize=9)
 
     # =============================================

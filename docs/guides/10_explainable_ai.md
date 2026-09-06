@@ -1,8 +1,8 @@
-# PHASE 8 — Explainable AI
+# Explainable AI
 
 **Duration**: 1 Week  
 **Started**: Week 17  
-**Status**: 📝 Pending  
+**Status**: ✅ Complete  
 **Goal**: Make predictions interpretable
 
 ---

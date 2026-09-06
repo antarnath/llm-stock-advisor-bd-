@@ -1,5 +1,5 @@
 """
-Phase 9 — Demo: run a curated set of RAG queries and save results.
+Demo: run a curated set of RAG queries and save results.
 
 Demonstrates the RAG system answering finance-domain questions in
 both English and Bangla.
@@ -19,7 +19,7 @@ sys.path.insert(0, str(_PROJECT_ROOT))
 from src.rag.retriever import NewsRetriever, format_hits
 from src.utils.logger import get_logger
 
-logger = get_logger("phase9_demo")
+logger = get_logger("query_news_demo")
 
 DEMO_QUERIES = [
     # English queries, no filter
@@ -42,7 +42,7 @@ DEMO_QUERIES = [
 
 def main():
     logger.info("=" * 60)
-    logger.info("PHASE 9 — RAG DEMO")
+    logger.info("RAG DEMO")
     logger.info("=" * 60)
 
     retriever = NewsRetriever(index_dir=_PROJECT_ROOT / "models/rag")

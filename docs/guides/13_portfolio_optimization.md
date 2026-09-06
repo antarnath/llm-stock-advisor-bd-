@@ -1,9 +1,8 @@
-# PHASE 11 — Portfolio Optimization
+# Portfolio Optimization
 
 **Duration**: 1 Week  
 **Started**: Week 22  
-**Status**: 📝 Pending  
-**Goal**: Implement portfolio optimization algorithms
+**Status**: ⏸ Partial — basic rule-based sizing in `src/agents/portfolio_agent.py`; full MPT module (mean-variance, Black–Litterman, risk parity) deferred to thesis-stretch goals.
 
 ---
 

@@ -1,9 +1,8 @@
-# PHASE 12 — LLM Financial Advisor
+# LLM Financial Advisor
 
 **Duration**: 2 Weeks  
 **Started**: Week 23  
-**Status**: 📝 Pending  
-**Goal**: Integrate all components into cohesive advisor
+**Status**: ⏸ Partial — chat UI scaffolded in `frontend/app/chat/`, deterministic orchestrator working. External LLM integration (GPT-4 / Claude) for natural-language explanation still pending.
 
 ---
 

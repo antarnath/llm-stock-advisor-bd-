@@ -1,5 +1,5 @@
 """
-LIME Explainer — Phase 8.
+LIME Explainer.
 
 Local Interpretable Model-agnostic Explanations. Works for any model with
 a .predict() method. For time-series LSTM models, the 60-day window is

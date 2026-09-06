@@ -1,5 +1,5 @@
 """
-Phase 9 — RAG (Retrieval-Augmented Generation) system over the DSE news corpus.
+RAG (Retrieval-Augmented Generation) system over the DSE news corpus.
 
 Components:
 - NewsEmbedder: sentence-transformer wrapper (multilingual: en + bn)

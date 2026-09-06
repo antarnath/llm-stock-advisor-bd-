@@ -1,9 +1,8 @@
-# PHASE 14 — Research Paper
+# Research Paper
 
 **Duration**: 2 Weeks  
 **Started**: Week 27  
-**Status**: 📝 Pending  
-**Goal**: Write publication-quality research paper
+**Status**: ⏸ Partial — uniqueness analysis complete, Bangla ablation done, diagrams ready. Draft not started.
 
 ---
 

@@ -1,5 +1,5 @@
 """
-Natural-Language Explanation Generator — Phase 8.
+Natural-Language Explanation Generator.
 
 Turns SHAP/LIME feature weights into a beginner-friendly explanation:
 

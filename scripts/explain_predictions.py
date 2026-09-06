@@ -1,8 +1,8 @@
 """
-Phase 8 — XAI Master Runner.
+Explainable AI — SHAP + LIME master runner.
 
 Runs SHAP (LinearExplainer / TreeExplainer) on all 30 DSE stocks using the
-best Phase 3 baseline model per stock. Computes:
+best baseline model per stock. Computes:
 
   - Global feature importance (mean |SHAP| per feature, per stock)
   - Per-stock local explanations (top-10 features for 5 sample predictions)
@@ -20,8 +20,8 @@ Outputs (results/xai/):
   - plots/                            : 5 PNGs
 
 Usage:
-    .venv/bin/python scripts/phase8_xai.py
-    .venv/bin/python scripts/phase8_xai.py --max-stocks 5  # smoke test
+    .venv/bin/python scripts/explain_predictions.py
+    .venv/bin/python scripts/explain_predictions.py --max-stocks 5  # smoke test
 """
 
 from __future__ import annotations
@@ -58,7 +58,7 @@ XAI_PLOTS = XAI_DIR / "plots"
 XAI_DIR.mkdir(parents=True, exist_ok=True)
 XAI_PLOTS.mkdir(parents=True, exist_ok=True)
 
-logger = get_logger("phase8_xai")
+logger = get_logger("explain_predictions")
 
 
 # ---------------------------------------------------------------------------
@@ -99,7 +99,7 @@ def prepare_stock_data(stock: str, features: list[str], data_dir: Path):
     if missing:
         return None
     X = X[features]
-    # Time-based split (last 20% is test, matches Phase 3)
+    # Time-based split (last 20% is test, matches baseline training)
     n = len(X)
     test_size = 0.20
     val_end = int(n * (1.0 - test_size))
@@ -198,7 +198,7 @@ def plot_aggregate_importance(agg: pd.DataFrame, out_path: Path):
     ax.set_yticklabels(top["feature"], fontsize=9)
     ax.invert_yaxis()
     ax.set_xlabel("Mean |SHAP| across 30 DSE stocks")
-    ax.set_title("Phase 8 — Global Feature Importance (XAI)\nTop-15 features, sign indicates direction",
+    ax.set_title("Global Feature Importance (XAI)\nTop-15 features, sign indicates direction",
                  fontsize=11, fontweight="bold")
     ax.grid(True, alpha=0.3, axis="x")
     fig.tight_layout()
@@ -225,7 +225,7 @@ def plot_per_stock_top_features(per_stock: pd.DataFrame, out_path: Path):
         sub, cmap="viridis", ax=ax, cbar_kws={"label": "Mean |SHAP|"},
         linewidths=0.3, linecolor="gray",
     )
-    ax.set_title("Phase 8 — Per-Stock Top-10 Feature Importance\n(rows=stocks, cols=features)",
+    ax.set_title("Per-Stock Top-10 Feature Importance\n(rows=stocks, cols=features)",
                  fontsize=12, fontweight="bold")
     ax.set_xlabel("Feature")
     ax.set_ylabel("Stock")
@@ -248,7 +248,7 @@ def plot_top5_per_stock(per_stock: pd.DataFrame, out_path: Path):
     fig, ax = plt.subplots(figsize=(12, 6))
     counts.plot(kind="barh", ax=ax, color="#1f77b4", edgecolor="black")
     ax.set_xlabel(f"Number of stocks for which this feature is #1 (n={len(top1)})")
-    ax.set_title("Phase 8 — Top Feature per Stock (stability check)\n"
+    ax.set_title("Top Feature per Stock (stability check)\n"
                  "If one feature dominates, models rely on a common signal.",
                  fontsize=11, fontweight="bold")
     ax.invert_yaxis()
@@ -274,7 +274,7 @@ def plot_sign_distribution(agg: pd.DataFrame, out_path: Path):
     ax.invert_yaxis()
     ax.axvline(0, color="black", linewidth=0.5)
     ax.set_xlabel(f"Mean {signed_col} (positive = pushes prediction UP)")
-    ax.set_title("Phase 8 — Direction of Feature Effects",
+    ax.set_title("Direction of Feature Effects",
                  fontsize=11, fontweight="bold")
     ax.grid(True, alpha=0.3, axis="x")
     fig.tight_layout()
@@ -304,7 +304,7 @@ def plot_shap_vs_lime(lime_df: pd.DataFrame, per_stock: pd.DataFrame, out_path: 
     for i, v in enumerate(values):
         ax.text(i, v + 0.1, str(v), ha="center", fontsize=11, fontweight="bold")
     ax.set_ylabel("Number of unique features")
-    ax.set_title("Phase 8 — SHAP vs LIME Top-Feature Agreement",
+    ax.set_title("SHAP vs LIME Top-Feature Agreement",
                  fontsize=11, fontweight="bold")
     ax.grid(True, alpha=0.3, axis="y")
     fig.tight_layout()
@@ -328,7 +328,7 @@ def write_summary_report(
 
     lines = []
     lines.append("=" * 70)
-    lines.append("📊 PHASE 8 — EXPLAINABLE AI (XAI) SUMMARY")
+    lines.append("EXPLAINABLE AI (XAI) SUMMARY")
     lines.append("=" * 70)
     lines.append(f"\nStocks analyzed: {per_stock['stock'].nunique()}")
     lines.append(f"Features per stock: {per_stock['feature'].nunique()}")
@@ -362,11 +362,11 @@ def write_summary_report(
     lines.append("=" * 70)
     lines.append("KEY INSIGHTS")
     lines.append("=" * 70)
-    lines.append("1. SHAP exposes what Phase 3 baseline models actually learned.")
+    lines.append("1. SHAP exposes what baseline models actually learned.")
     lines.append("2. If top features have low SHAP magnitudes → models learned weak signals.")
     lines.append("3. If top-1 feature varies wildly across stocks → no universal driver.")
-    lines.append("4. This mechanistic evidence complements the ~50% Dir_Acc finding from")
-    lines.append("   Phases 3-7: even when a model picks a feature, its effect is small.")
+    lines.append("4. This mechanistic evidence complements the ~50% Dir_Acc finding: even")
+    lines.append("   when a model picks a feature, its effect is small.")
     lines.append("=" * 70)
     lines.append("END OF REPORT")
     lines.append("=" * 70)
@@ -379,7 +379,7 @@ def write_summary_report(
 # ---------------------------------------------------------------------------
 
 def main():
-    parser = argparse.ArgumentParser(description="Phase 8 XAI — SHAP + LIME.")
+    parser = argparse.ArgumentParser(description="Explainable AI — SHAP + LIME.")
     parser.add_argument("--max-stocks", type=int, default=None,
                         help="Limit to N stocks (debug).")
     parser.add_argument("--n-test", type=int, default=200,
@@ -389,7 +389,7 @@ def main():
     args = parser.parse_args()
 
     logger.info("=" * 70)
-    logger.info("🔍 PHASE 8 — EXPLAINABLE AI (SHAP + LIME)")
+    logger.info("EXPLAINABLE AI (SHAP + LIME)")
     logger.info("=" * 70)
 
     # Discover stocks
@@ -507,7 +507,7 @@ def main():
     logger.info(f"💾 Saved summary_report.txt")
 
     logger.info("\n" + "=" * 70)
-    logger.info("✅ Phase 8 XAI complete")
+    logger.info("XAI complete")
     logger.info(f"📁 Results: {XAI_DIR}")
     logger.info(f"📁 Plots:   {XAI_PLOTS}")
     logger.info("=" * 70)

@@ -26,3 +26,90 @@
 2026-09-06 15:02:15 | INFO     | bangla_ablation |   [bilingual] 23/29 ROBI
 2026-09-06 15:02:48 | INFO     | bangla_ablation |   [bilingual] 24/29 SIBL
 2026-09-06 15:03:21 | INFO     | bangla_ablation |   [bilingual] 25/29 SQURPHARMA
+2026-09-06 15:03:43 | INFO     | bangla_ablation |   [bilingual] 26/29 SUMITPOWER
+2026-09-06 15:04:17 | INFO     | bangla_ablation |   [bilingual] 27/29 TITASGAS
+2026-09-06 15:04:37 | INFO     | bangla_ablation |   [bilingual] 28/29 UNILEVER
+2026-09-06 15:04:53 | INFO     | bangla_ablation |   [bilingual] 29/29 WALTONHIL
+2026-09-06 15:05:27 | INFO     | bangla_ablation |   [en_only] 1/29 ACI
+2026-09-06 15:05:57 | INFO     | bangla_ablation |   [en_only] 2/29 BANKASIA
+2026-09-06 15:06:13 | INFO     | bangla_ablation |   [en_only] 3/29 BATBC
+2026-09-06 15:06:47 | INFO     | bangla_ablation |   [en_only] 4/29 BEXIMCO
+2026-09-06 15:07:15 | INFO     | bangla_ablation |   [en_only] 5/29 BEXPHARMA
+2026-09-06 15:07:47 | INFO     | bangla_ablation |   [en_only] 6/29 BRACBANK
+2026-09-06 15:08:02 | INFO     | bangla_ablation |   [en_only] 7/29 BSCCL
+2026-09-06 15:08:25 | INFO     | bangla_ablation |   [en_only] 8/29 CUSTOMERS
+2026-09-06 15:08:44 | INFO     | bangla_ablation |   [en_only] 9/29 DBBL
+2026-09-06 15:09:03 | INFO     | bangla_ablation |   [en_only] 10/29 DUTCHBANGL
+2026-09-06 15:09:30 | INFO     | bangla_ablation |   [en_only] 11/29 EBL
+2026-09-06 15:10:00 | INFO     | bangla_ablation |   [en_only] 12/29 GP
+2026-09-06 15:10:22 | INFO     | bangla_ablation |   [en_only] 13/29 HEIDELBCEM
+2026-09-06 15:10:48 | INFO     | bangla_ablation |   [en_only] 14/29 ISLAMI BANK
+2026-09-06 15:11:12 | INFO     | bangla_ablation |   [en_only] 15/29 JAMUNAOIL
+2026-09-06 15:11:37 | INFO     | bangla_ablation |   [en_only] 16/29 LAFARGECEM
+2026-09-06 15:12:11 | INFO     | bangla_ablation |   [en_only] 17/29 MARICO
+2026-09-06 15:12:30 | INFO     | bangla_ablation |   [en_only] 18/29 MUTUALTRUST
+2026-09-06 15:12:51 | INFO     | bangla_ablation |   [en_only] 19/29 NCCBANK
+2026-09-06 15:13:18 | INFO     | bangla_ablation |   [en_only] 20/29 POWERGRID
+2026-09-06 15:13:44 | INFO     | bangla_ablation |   [en_only] 21/29 PRIMEBANK
+2026-09-06 15:14:01 | INFO     | bangla_ablation |   [en_only] 22/29 RENATA
+2026-09-06 15:14:24 | INFO     | bangla_ablation |   [en_only] 23/29 ROBI
+2026-09-06 15:14:42 | INFO     | bangla_ablation |   [en_only] 24/29 SIBL
+2026-09-06 15:15:18 | INFO     | bangla_ablation |   [en_only] 25/29 SQURPHARMA
+2026-09-06 15:15:52 | INFO     | bangla_ablation |   [en_only] 26/29 SUMITPOWER
+2026-09-06 15:16:22 | INFO     | bangla_ablation |   [en_only] 27/29 TITASGAS
+2026-09-06 15:16:48 | INFO     | bangla_ablation |   [en_only] 28/29 UNILEVER
+2026-09-06 15:17:08 | INFO     | bangla_ablation |   [en_only] 29/29 WALTONHIL
+2026-09-06 15:17:40 | INFO     | bangla_ablation |   [bn_only] 1/29 ACI
+2026-09-06 15:18:11 | INFO     | bangla_ablation |   [bn_only] 2/29 BANKASIA
+2026-09-06 15:18:27 | INFO     | bangla_ablation |   [bn_only] 3/29 BATBC
+2026-09-06 15:18:46 | INFO     | bangla_ablation |   [bn_only] 4/29 BEXIMCO
+2026-09-06 15:19:17 | INFO     | bangla_ablation |   [bn_only] 5/29 BEXPHARMA
+2026-09-06 15:19:51 | INFO     | bangla_ablation |   [bn_only] 6/29 BRACBANK
+2026-09-06 15:20:12 | INFO     | bangla_ablation |   [bn_only] 7/29 BSCCL
+2026-09-06 15:20:42 | INFO     | bangla_ablation |   [bn_only] 8/29 CUSTOMERS
+2026-09-06 15:20:57 | INFO     | bangla_ablation |   [bn_only] 9/29 DBBL
+2026-09-06 15:21:20 | INFO     | bangla_ablation |   [bn_only] 10/29 DUTCHBANGL
+2026-09-06 15:21:51 | INFO     | bangla_ablation |   [bn_only] 11/29 EBL
+2026-09-06 15:22:06 | INFO     | bangla_ablation |   [bn_only] 12/29 GP
+2026-09-06 15:22:34 | INFO     | bangla_ablation |   [bn_only] 13/29 HEIDELBCEM
+2026-09-06 15:22:56 | INFO     | bangla_ablation |   [bn_only] 14/29 ISLAMI BANK
+2026-09-06 15:23:10 | INFO     | bangla_ablation |   [bn_only] 15/29 JAMUNAOIL
+2026-09-06 15:23:29 | INFO     | bangla_ablation |   [bn_only] 16/29 LAFARGECEM
+2026-09-06 15:24:01 | INFO     | bangla_ablation |   [bn_only] 17/29 MARICO
+2026-09-06 15:24:25 | INFO     | bangla_ablation |   [bn_only] 18/29 MUTUALTRUST
+2026-09-06 15:24:45 | INFO     | bangla_ablation |   [bn_only] 19/29 NCCBANK
+2026-09-06 15:25:16 | INFO     | bangla_ablation |   [bn_only] 20/29 POWERGRID
+2026-09-06 15:25:46 | INFO     | bangla_ablation |   [bn_only] 21/29 PRIMEBANK
+2026-09-06 15:26:18 | INFO     | bangla_ablation |   [bn_only] 22/29 RENATA
+2026-09-06 15:26:48 | INFO     | bangla_ablation |   [bn_only] 23/29 ROBI
+2026-09-06 15:27:17 | INFO     | bangla_ablation |   [bn_only] 24/29 SIBL
+2026-09-06 15:27:48 | INFO     | bangla_ablation |   [bn_only] 25/29 SQURPHARMA
+2026-09-06 15:28:18 | INFO     | bangla_ablation |   [bn_only] 26/29 SUMITPOWER
+2026-09-06 15:28:52 | INFO     | bangla_ablation |   [bn_only] 27/29 TITASGAS
+2026-09-06 15:29:08 | INFO     | bangla_ablation |   [bn_only] 28/29 UNILEVER
+2026-09-06 15:29:24 | INFO     | bangla_ablation |   [bn_only] 29/29 WALTONHIL
+2026-09-06 15:29:55 | INFO     | bangla_ablation | 
+💾 Saved /media/antar-chandra-nath/Media/Research/Dataset/results/multimodal/bangla_ablation_results.csv
+2026-09-06 15:29:55 | INFO     | bangla_ablation | 💾 Saved /media/antar-chandra-nath/Media/Research/Dataset/results/multimodal/bangla_ablation_summary.txt
+============================================================
+BANGLA-ONLY vs ENGLISH-ONLY vs BILINGUAL ABLATION
+============================================================
+Stocks tested: 29
+Variants: bilingual, en_only, bn_only
+
+Mean test directional accuracy (Dir_Acc %) by variant:
+------------------------------------------------------------
+  bilingual     mean=49.93%  std=1.53%  n=29
+  en_only       mean=50.15%  std=1.29%  n=29
+  bn_only       mean=49.57%  std=1.52%  n=29
+
+KEY FINDINGS
+------------------------------------------------------------
+  Bilingual beats English-only by: -0.22pp
+  Bilingual beats Bangla-only by:  +0.36pp
+  Bangla-only beats English-only by: -0.58pp
+
+Interpretation:
+  Bilingual ≈ English-only; Bangla adds little on its own.
+  The Bangla contribution is marginal — discuss as limitation.
+============================================================

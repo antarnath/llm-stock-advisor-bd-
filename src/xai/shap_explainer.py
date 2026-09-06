@@ -1,9 +1,9 @@
 """
-SHAP Explainer — Phase 8.
+SHAP Explainer.
 
-Provides unified SHAP-based feature importance for all model types in the project:
+Provides unified SHAP-based feature importance for all model types:
 
-- TreeSHAP for XGBoost / LightGBM / RandomForest (Phase 3 baseline)
+- TreeSHAP for XGBoost / LightGBM / RandomForest (baseline models)
 - KernelSHAP for deep learning models (LSTM / GRU / CNN-LSTM / Multimodal LSTM)
 - Per-stock + per-feature SHAP values, aggregated into a global importance matrix
 
@@ -236,7 +236,7 @@ def explain_xgboost_stock(
     X = df.drop(columns=[c for c in drop_cols if c in df.columns]).copy()
     X = X[features]
 
-    # Time-based test split (last 20%, matches Phase 3 protocol)
+    # Time-based test split (last 20%, matches baseline training protocol)
     test_size = 0.20
     n = len(X)
     test_end = n

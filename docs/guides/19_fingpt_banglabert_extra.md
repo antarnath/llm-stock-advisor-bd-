@@ -1,4 +1,4 @@
-# Phase 6xxx — Advanced Sentiment (FinGPT + Bangla-BERT)
+# Advanced Sentiment (FinGPT + Bangla-BERT)
 
 ## Status: 📝 DEFERRED
 

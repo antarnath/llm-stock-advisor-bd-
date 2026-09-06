@@ -1,11 +1,10 @@
-# Phase 7xxx — Advanced Multimodal Fusion (Attention, Macro, Per-Event)
+# Advanced Multimodal Fusion (Attention, Macro, Per-Event)
 
 ## Status: 📝 DEFERRED
 
-This phase was originally bundled with Phase 7 (Multimodal Forecasting) but
-deferred to keep Phase 7 simple and reproducible on CPU.
+This guide covers extra fusion strategies deferred to keep the core multimodal module simple and reproducible on CPU.
 
-Phase 7 (current) implements two fusion strategies:
+Core multimodal forecasting implements three fusion strategies:
 - **Early fusion** (`MultimodalLSTMEarly`): concat price + sentiment at every
   timestep, single LSTM, 356K params.
 - **Late fusion** (`MultimodalLSTMLate`): separate price LSTM (128 hidden, 2

@@ -1,12 +1,12 @@
 """
-Phase 9 — Query the RAG index.
+Query the RAG index.
 
 Demonstrates retrieval with various queries and filters.
 
 Usage:
-    .venv/bin/python scripts/phase9_query.py "BATBC dividend"
-    .venv/bin/python scripts/phase9_query.py "bank sector scandal" --filter-language bn
-    .venv/bin/python scripts/phase9_query.py "pharma expansion" --filter-stock SQURPHARMA
+    .venv/bin/python scripts/query_news.py "BATBC dividend"
+    .venv/bin/python scripts/query_news.py "bank sector scandal" --filter-language bn
+    .venv/bin/python scripts/query_news.py "pharma expansion" --filter-stock SQURPHARMA
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ sys.path.insert(0, str(_PROJECT_ROOT))
 from src.rag.retriever import NewsRetriever, format_hits
 from src.utils.logger import get_logger
 
-logger = get_logger("phase9_query")
+logger = get_logger("query_news")
 
 
 def main():
@@ -38,7 +38,7 @@ def main():
     parser.add_argument("--include-content", action="store_true")
     args = parser.parse_args()
 
-    logger.info(f"🔍 Query: {args.query!r}")
+    logger.info(f"Query: {args.query!r}")
     if args.filter_stock:
         logger.info(f"   filter stock: {args.filter_stock}")
     if args.filter_language:

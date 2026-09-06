@@ -1,1 +1,1 @@
-"""XAI package — Phase 8 (SHAP + LIME)."""
+"""Explainable AI (SHAP + LIME) for DSE prediction models."""

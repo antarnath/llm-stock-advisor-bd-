@@ -1,5 +1,5 @@
 """
-Phase 9 — Build the RAG index over the DSE news corpus.
+Build the RAG index over the DSE news corpus.
 
 Reads: data/raw/news/news_curated.csv (1,560 articles)
        results/sentiment/news_scored.csv (sentiment scores)
@@ -7,8 +7,8 @@ Embeds: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
 Writes: models/rag/  (FAISS index + metadata.parquet)
 
 Usage:
-    .venv/bin/python scripts/phase9_build_index.py
-    .venv/bin/python scripts/phase9_build_index.py --max-articles 100  # smoke
+    .venv/bin/python scripts/build_news_index.py
+    .venv/bin/python scripts/build_news_index.py --max-articles 100  # smoke
 """
 
 from __future__ import annotations
@@ -24,7 +24,7 @@ sys.path.insert(0, str(_PROJECT_ROOT))
 from src.rag.indexer import build_index
 from src.utils.logger import get_logger
 
-logger = get_logger("phase9_build_index")
+logger = get_logger("build_news_index")
 
 
 def main():
@@ -41,7 +41,7 @@ def main():
     args = parser.parse_args()
 
     logger.info("=" * 60)
-    logger.info("PHASE 9 — RAG INDEX BUILDER")
+    logger.info("RAG INDEX BUILDER")
     logger.info("=" * 60)
 
     # If --max-articles is set, write a temp truncated CSV
@@ -67,10 +67,10 @@ def main():
 
     logger.info("")
     logger.info("=" * 60)
-    logger.info(f"✅ Built RAG index in {elapsed:.1f}s")
-    logger.info(f"📁 Index: {args.index_dir}")
-    logger.info(f"📊 Articles: {len(idx.metadata):,}")
-    logger.info(f"🔢 Dim: {idx.dim}")
+    logger.info(f"Built RAG index in {elapsed:.1f}s")
+    logger.info(f"Output: {args.index_dir}")
+    logger.info(f"Articles: {len(idx.metadata):,}")
+    logger.info(f"Dim: {idx.dim}")
     logger.info("=" * 60)
 
 

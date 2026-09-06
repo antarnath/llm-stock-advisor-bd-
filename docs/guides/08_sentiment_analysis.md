@@ -1,8 +1,8 @@
-# PHASE 6 — Sentiment Analysis
+# Sentiment Analysis
 
 **Duration**: 2 Weeks  
 **Started**: Week 13  
-**Status**: 📝 Pending  
+**Status**: ✅ Complete  
 **Goal**: Add sentiment analysis from financial news
 
 ---

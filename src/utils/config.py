@@ -41,7 +41,7 @@ LOGS_DIR = PROJECT_ROOT / "logs"
 
 # Documentation
 DOCS_DIR = PROJECT_ROOT / "docs"
-PHASES_DIR = DOCS_DIR / "phases"
+GUIDES_DIR = DOCS_DIR / "guides"
 
 # Source code
 SRC_DIR = PROJECT_ROOT / "src"
