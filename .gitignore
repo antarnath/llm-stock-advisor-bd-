@@ -145,5 +145,50 @@ COMPLETE_PROJECT_GUIDE.txt
 NOTES.txt
 
 # -----------------------------------------------------------------------------
+# 11. Frontend (Phase 12) — Next.js / Tailwind build artifacts + deps
+# -----------------------------------------------------------------------------
+frontend/.next/
+frontend/node_modules/
+frontend/.env.local
+frontend/out/
+
+# -----------------------------------------------------------------------------
+# 12. Phase 13 — runtime-overridable LLM config (may contain API keys)
+# -----------------------------------------------------------------------------
+data/external/api/llm_settings.json
+
+# -----------------------------------------------------------------------------
+# 13. Trained model files (regenerable from src/training/ scripts)
+# -----------------------------------------------------------------------------
+*.pt
+*.pkl
+*.joblib
+*.bin
+*.h5
+*.hdf5
+*.onnx
+*.safetensors
+models/
+
+# -----------------------------------------------------------------------------
+# 14. Raw + processed data CSVs (regenerable from src/data_collection/)
+# -----------------------------------------------------------------------------
+data/raw/stocks/*.csv
+data/raw/indices/*.csv
+data/raw/news/*.csv
+data/processed/*_processed*.csv
+data/processed/_last_refresh.json
+data/external/*.csv
+
+# -----------------------------------------------------------------------------
+# 15. Report artifacts (large, regenerable)
+# -----------------------------------------------------------------------------
+report.zip
+report bluprint.jpg
+report_bluprint.jpg
+report_bluprint*.jpg
+*.zip
+
+# -----------------------------------------------------------------------------
 # End of .gitignore
 # -----------------------------------------------------------------------------
