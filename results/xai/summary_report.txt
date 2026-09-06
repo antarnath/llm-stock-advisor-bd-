@@ -1,0 +1,96 @@
+======================================================================
+📊 PHASE 8 — EXPLAINABLE AI (XAI) SUMMARY
+======================================================================
+
+Stocks analyzed: 30
+Features per stock: 27
+Method: SHAP (LinearExplainer / TreeExplainer based on best model type)
+Test samples per stock: 200 (subsampled from time-based test split)
+
+----------------------------------------------------------------------
+TOP-5 FEATURES OVERALL (mean |SHAP| across all 30 stocks)
+----------------------------------------------------------------------
+  Volume_SMA_20         mean |SHAP|=0.000491  mean SHAP=+0.000008
+  Returns_20d           mean |SHAP|=0.000463  mean SHAP=-0.000015
+  BB_Position           mean |SHAP|=0.000343  mean SHAP=-0.000052
+  Volatility_60d        mean |SHAP|=0.000342  mean SHAP=-0.000051
+  Volume_Ratio          mean |SHAP|=0.000328  mean SHAP=-0.000017
+
+----------------------------------------------------------------------
+TOP-1 FEATURE STABILITY (how often each feature is #1 for a stock)
+----------------------------------------------------------------------
+  Volume_SMA_20         #1 for 10/30 stocks
+  Returns_20d           #1 for 4/30 stocks
+  SMA_200               #1 for 3/30 stocks
+  ATR_14                #1 for 3/30 stocks
+  Volume_Ratio          #1 for 2/30 stocks
+
+----------------------------------------------------------------------
+SAMPLE NATURAL-LANGUAGE EXPLANATIONS (first 5 of 30)
+----------------------------------------------------------------------
+📈 Prediction: ACI expected to increase by 0.11% next day
+
+🔑 Key drivers (top 5):
+   • 5-day return (value=-0.0583): pushes UP strongly (weight=+0.001090)
+   • 30-day volatility (value=0.1726): pushes UP moderately (weight=+0.000951)
+   • Bollinger position (value=-0.1059): pushes UP moderately (weight=+0.000824)
+   • RSI (14-day momentum) (value=32.7364): pushes DOWN moderately (weight=-0.000812)
+   • 20-day return (value=-0.0451): pushes DOWN moderately (weight=-0.000712)
+
+🎯 Concentration: top feature explains 25% of total explanation weight
+
+📈 Prediction: BANKASIA expected to increase by 0.21% next day
+
+🔑 Key drivers (top 5):
+   • 5-day return (value=0.0929): pushes UP moderately (weight=+0.000592)
+   • 60-day volatility (value=0.2763): pushes UP moderately (weight=+0.000573)
+   • 20-day return (value=0.0093): pushes UP moderately (weight=+0.000454)
+   • RSI (14-day momentum) (value=73.1129): pushes UP moderately (weight=+0.000260)
+   • 100-day moving average (value=197.0040): pushes DOWN moderately (weight=-0.000224)
+
+🎯 Concentration: top feature explains 29% of total explanation weight
+
+📈 Prediction: BATBC expected to increase by 0.13% next day
+
+🔑 Key drivers (top 5):
+   • 20-day return (value=-0.0468): pushes UP moderately (weight=+0.000505)
+   • 5-day return (value=-0.0148): pushes UP moderately (weight=+0.000354)
+   • 20-day avg volume (value=540049.7000): pushes UP moderately (weight=+0.000311)
+   • RSI (14-day momentum) (value=28.6877): pushes UP moderately (weight=+0.000144)
+   • 100-day moving average (value=366.8216): pushes DOWN moderately (weight=-0.000126)
+
+🎯 Concentration: top feature explains 40% of total explanation weight
+
+📈 Prediction: BEXIMCO expected to decrease by 0.10% next day
+
+🔑 Key drivers (top 5):
+   • 200-day moving average (value=54.7407): pushes DOWN strongly (weight=-0.001148)
+   • 50-day moving average (value=65.7966): pushes UP strongly (weight=+0.001121)
+   • Average True Range (14d) (value=1.9271): pushes DOWN moderately (weight=-0.000829)
+   • 20-day return (value=0.0566): pushes DOWN moderately (weight=-0.000613)
+   • 10-day moving average (value=71.1210): pushes UP moderately (weight=+0.000423)
+
+🎯 Concentration: top feature explains 31% of total explanation weight
+
+📈 Prediction: BEXPHARMA expected to increase by 0.03% next day
+
+🔑 Key drivers (top 5):
+   • 20-day avg volume (value=309634.4000): pushes UP moderately (weight=+0.000618)
+   • Average True Range (14d) (value=4.0636): pushes UP moderately (weight=+0.000368)
+   • today's volume vs avg (value=1.0470): pushes DOWN moderately (weight=-0.000327)
+   • 20-day return (value=-0.0523): pushes DOWN moderately (weight=-0.000305)
+   • 10-day moving average (value=117.1560): pushes UP moderately (weight=+0.000280)
+
+🎯 Concentration: top feature explains 34% of total explanation weight
+
+======================================================================
+KEY INSIGHTS
+======================================================================
+1. SHAP exposes what Phase 3 baseline models actually learned.
+2. If top features have low SHAP magnitudes → models learned weak signals.
+3. If top-1 feature varies wildly across stocks → no universal driver.
+4. This mechanistic evidence complements the ~50% Dir_Acc finding from
+   Phases 3-7: even when a model picks a feature, its effect is small.
+======================================================================
+END OF REPORT
+======================================================================

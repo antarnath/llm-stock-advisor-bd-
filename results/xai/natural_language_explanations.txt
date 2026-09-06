@@ -1,0 +1,389 @@
+
+
+📈 Prediction: ACI expected to increase by 0.11% next day
+
+🔑 Key drivers (top 5):
+   • 5-day return (value=-0.0583): pushes UP strongly (weight=+0.001090)
+   • 30-day volatility (value=0.1726): pushes UP moderately (weight=+0.000951)
+   • Bollinger position (value=-0.1059): pushes UP moderately (weight=+0.000824)
+   • RSI (14-day momentum) (value=32.7364): pushes DOWN moderately (weight=-0.000812)
+   • 20-day return (value=-0.0451): pushes DOWN moderately (weight=-0.000712)
+
+🎯 Concentration: top feature explains 25% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: BANKASIA expected to increase by 0.21% next day
+
+🔑 Key drivers (top 5):
+   • 5-day return (value=0.0929): pushes UP moderately (weight=+0.000592)
+   • 60-day volatility (value=0.2763): pushes UP moderately (weight=+0.000573)
+   • 20-day return (value=0.0093): pushes UP moderately (weight=+0.000454)
+   • RSI (14-day momentum) (value=73.1129): pushes UP moderately (weight=+0.000260)
+   • 100-day moving average (value=197.0040): pushes DOWN moderately (weight=-0.000224)
+
+🎯 Concentration: top feature explains 29% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: BATBC expected to increase by 0.13% next day
+
+🔑 Key drivers (top 5):
+   • 20-day return (value=-0.0468): pushes UP moderately (weight=+0.000505)
+   • 5-day return (value=-0.0148): pushes UP moderately (weight=+0.000354)
+   • 20-day avg volume (value=540049.7000): pushes UP moderately (weight=+0.000311)
+   • RSI (14-day momentum) (value=28.6877): pushes UP moderately (weight=+0.000144)
+   • 100-day moving average (value=366.8216): pushes DOWN moderately (weight=-0.000126)
+
+🎯 Concentration: top feature explains 40% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: BEXIMCO expected to decrease by 0.10% next day
+
+🔑 Key drivers (top 5):
+   • 200-day moving average (value=54.7407): pushes DOWN strongly (weight=-0.001148)
+   • 50-day moving average (value=65.7966): pushes UP strongly (weight=+0.001121)
+   • Average True Range (14d) (value=1.9271): pushes DOWN moderately (weight=-0.000829)
+   • 20-day return (value=0.0566): pushes DOWN moderately (weight=-0.000613)
+   • 10-day moving average (value=71.1210): pushes UP moderately (weight=+0.000423)
+
+🎯 Concentration: top feature explains 31% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: BEXPHARMA expected to increase by 0.03% next day
+
+🔑 Key drivers (top 5):
+   • 20-day avg volume (value=309634.4000): pushes UP moderately (weight=+0.000618)
+   • Average True Range (14d) (value=4.0636): pushes UP moderately (weight=+0.000368)
+   • today's volume vs avg (value=1.0470): pushes DOWN moderately (weight=-0.000327)
+   • 20-day return (value=-0.0523): pushes DOWN moderately (weight=-0.000305)
+   • 10-day moving average (value=117.1560): pushes UP moderately (weight=+0.000280)
+
+🎯 Concentration: top feature explains 34% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: BRACBANK expected to increase by 0.00% next day
+
+🔑 Key drivers (top 5):
+   • Bollinger position (value=0.6911): pushes DOWN moderately (weight=-0.000597)
+   • 60-day volatility (value=0.2658): pushes UP moderately (weight=+0.000357)
+   • 1-day return (value=0.0002): pushes DOWN moderately (weight=-0.000208)
+   • log return (value=0.0002): pushes DOWN moderately (weight=-0.000177)
+   • Bollinger band width (value=5.7713): pushes UP moderately (weight=+0.000170)
+
+🎯 Concentration: top feature explains 41% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: BSCCL expected to decrease by 0.05% next day
+
+🔑 Key drivers (top 5):
+   • 30-day volatility (value=0.2573): pushes UP moderately (weight=+0.000405)
+   • 50-day moving average (value=122.8940): pushes DOWN moderately (weight=-0.000279)
+   • 1-day return (value=-0.0077): pushes DOWN moderately (weight=-0.000252)
+   • Bollinger position (value=0.4643): pushes DOWN moderately (weight=-0.000242)
+   • today's volume vs avg (value=0.8742): pushes DOWN moderately (weight=-0.000222)
+
+🎯 Concentration: top feature explains 29% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: CUSTOMERS expected to decrease by 0.22% next day
+
+🔑 Key drivers (top 5):
+   • 20-day avg volume (value=387752.4500): pushes DOWN strongly (weight=-0.002059)
+   • today's volume vs avg (value=2.0965): pushes DOWN moderately (weight=-0.000578)
+   • 100-day moving average (value=326.6428): pushes UP moderately (weight=+0.000450)
+   • 50-day exponential MA (value=290.2673): pushes UP moderately (weight=+0.000262)
+   • 5-day moving average (value=269.5700): pushes DOWN moderately (weight=-0.000254)
+
+🎯 Concentration: top feature explains 69% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: DBBL expected to increase by 0.26% next day
+
+🔑 Key drivers (top 5):
+   • 1-day return (value=0.0288): pushes UP strongly (weight=+0.001582)
+   • 20-day avg volume (value=575743.7000): pushes DOWN moderately (weight=-0.000523)
+   • 5-day moving average (value=397.0020): pushes UP moderately (weight=+0.000342)
+   • 50-day exponential MA (value=440.5354): pushes UP moderately (weight=+0.000189)
+   • 10-day moving average (value=405.8960): pushes UP moderately (weight=+0.000179)
+
+🎯 Concentration: top feature explains 68% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: DSEX expected to increase by 0.05% next day
+
+🔑 Key drivers (top 5):
+   • 1-day return (value=-0.0091): pushes DOWN moderately (weight=-0.000495)
+   • 60-day volatility (value=0.1926): pushes UP moderately (weight=+0.000452)
+   • log return (value=-0.0092): pushes UP moderately (weight=+0.000228)
+   • today's volume vs avg (value=0.4750): pushes DOWN moderately (weight=-0.000215)
+   • Average True Range (14d) (value=3.2893): pushes UP moderately (weight=+0.000177)
+
+🎯 Concentration: top feature explains 36% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: DUTCHBANGL expected to decrease by 0.19% next day
+
+🔑 Key drivers (top 5):
+   • 20-day avg volume (value=603370.1500): pushes DOWN moderately (weight=-0.000585)
+   • Bollinger position (value=0.2310): pushes UP moderately (weight=+0.000414)
+   • 30-day volatility (value=0.1514): pushes DOWN moderately (weight=-0.000276)
+   • 5-day return (value=-0.0096): pushes DOWN moderately (weight=-0.000275)
+   • 50-day moving average (value=976.8398): pushes DOWN moderately (weight=-0.000228)
+
+🎯 Concentration: top feature explains 35% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: EBL expected to decrease by 0.07% next day
+
+🔑 Key drivers (top 5):
+   • today's volume vs avg (value=0.6381): pushes DOWN strongly (weight=-0.001086)
+   • 20-day return (value=0.1579): pushes DOWN moderately (weight=-0.000917)
+   • RSI (14-day momentum) (value=66.3004): pushes UP moderately (weight=+0.000560)
+   • 5-day return (value=-0.0353): pushes DOWN moderately (weight=-0.000302)
+   • 30-day volatility (value=0.3562): pushes DOWN moderately (weight=-0.000160)
+
+🎯 Concentration: top feature explains 46% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: GP expected to increase by 0.14% next day
+
+🔑 Key drivers (top 5):
+   • 200-day moving average (value=191.4684): pushes UP moderately (weight=+0.000702)
+   • 5-day return (value=0.0265): pushes DOWN moderately (weight=-0.000580)
+   • today's volume vs avg (value=0.6196): pushes DOWN moderately (weight=-0.000524)
+   • Bollinger position (value=0.2926): pushes UP moderately (weight=+0.000522)
+   • 30-day volatility (value=0.4298): pushes DOWN moderately (weight=-0.000399)
+
+🎯 Concentration: top feature explains 25% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: HEIDELBCEM expected to increase by 0.12% next day
+
+🔑 Key drivers (top 5):
+   • log return (value=-0.0425): pushes UP strongly (weight=+0.001065)
+   • 5-day return (value=-0.0124): pushes DOWN moderately (weight=-0.000323)
+   • 60-day volatility (value=0.2695): pushes UP moderately (weight=+0.000231)
+   • 1-day return (value=-0.0416): pushes UP moderately (weight=+0.000224)
+   • today's volume vs avg (value=1.5094): pushes DOWN moderately (weight=-0.000219)
+
+🎯 Concentration: top feature explains 62% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: ISLAMI BANK expected to decrease by 0.09% next day
+
+🔑 Key drivers (top 5):
+   • 5-day return (value=0.0720): pushes DOWN moderately (weight=-0.000891)
+   • 20-day avg volume (value=568524.7500): pushes UP moderately (weight=+0.000679)
+   • log return (value=0.0396): pushes DOWN moderately (weight=-0.000451)
+   • 1-day return (value=0.0404): pushes DOWN moderately (weight=-0.000366)
+   • today's volume vs avg (value=0.9200): pushes UP moderately (weight=+0.000205)
+
+🎯 Concentration: top feature explains 42% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: JAMUNAOIL expected to decrease by 0.24% next day
+
+🔑 Key drivers (top 5):
+   • Bollinger position (value=0.9470): pushes UP moderately (weight=+0.000735)
+   • 100-day moving average (value=440.9654): pushes DOWN moderately (weight=-0.000522)
+   • Bollinger band width (value=85.9426): pushes DOWN moderately (weight=-0.000513)
+   • Bollinger lower band (value=415.2652): pushes DOWN moderately (weight=-0.000499)
+   • 10-day moving average (value=475.6970): pushes DOWN moderately (weight=-0.000421)
+
+🎯 Concentration: top feature explains 27% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: LAFARGECEM expected to decrease by 0.34% next day
+
+🔑 Key drivers (top 5):
+   • 10-day moving average (value=363.9460): pushes DOWN moderately (weight=-0.000729)
+   • 50-day moving average (value=351.7982): pushes DOWN moderately (weight=-0.000607)
+   • Average True Range (14d) (value=8.8643): pushes DOWN moderately (weight=-0.000451)
+   • 20-day avg volume (value=616166.8500): pushes UP moderately (weight=+0.000435)
+   • RSI (14-day momentum) (value=65.9099): pushes DOWN moderately (weight=-0.000370)
+
+🎯 Concentration: top feature explains 27% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: MARICO expected to increase by 0.34% next day
+
+🔑 Key drivers (top 5):
+   • Bollinger position (value=0.9328): pushes UP strongly (weight=+0.001039)
+   • MACD histogram (value=-0.5094): pushes DOWN moderately (weight=-0.000629)
+   • 30-day volatility (value=0.4190): pushes UP moderately (weight=+0.000456)
+   • Average True Range (14d) (value=25.3771): pushes DOWN moderately (weight=-0.000427)
+   • RSI (14-day momentum) (value=57.4502): pushes UP moderately (weight=+0.000370)
+
+🎯 Concentration: top feature explains 36% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: MUTUALTRUST expected to decrease by 0.01% next day
+
+🔑 Key drivers (top 5):
+   • 20-day return (value=0.0056): pushes DOWN moderately (weight=-0.000641)
+   • Bollinger band width (value=65.8783): pushes UP moderately (weight=+0.000631)
+   • Bollinger position (value=0.6386): pushes DOWN moderately (weight=-0.000369)
+   • Bollinger lower band (value=1405.7499): pushes UP moderately (weight=+0.000352)
+   • 50-day exponential MA (value=1461.2354): pushes DOWN moderately (weight=-0.000305)
+
+🎯 Concentration: top feature explains 30% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: NCCBANK expected to increase by 0.11% next day
+
+🔑 Key drivers (top 5):
+   • 12-day exponential MA (value=501.8100): pushes UP moderately (weight=+0.000698)
+   • Bollinger lower band (value=485.1826): pushes DOWN moderately (weight=-0.000610)
+   • MACD histogram (value=-2.8502): pushes UP moderately (weight=+0.000563)
+   • 200-day moving average (value=469.3384): pushes DOWN moderately (weight=-0.000359)
+   • 10-day moving average (value=504.5890): pushes UP moderately (weight=+0.000357)
+
+🎯 Concentration: top feature explains 27% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: POWERGRID expected to increase by 0.21% next day
+
+🔑 Key drivers (top 5):
+   • 200-day moving average (value=46.3704): pushes DOWN moderately (weight=-0.000558)
+   • 5-day return (value=-0.0543): pushes UP moderately (weight=+0.000490)
+   • 20-day return (value=0.1070): pushes UP moderately (weight=+0.000280)
+   • today's volume vs avg (value=1.4076): pushes UP moderately (weight=+0.000267)
+   • 20-day avg volume (value=565760.3000): pushes UP moderately (weight=+0.000253)
+
+🎯 Concentration: top feature explains 32% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: PRIMEBANK expected to decrease by 0.08% next day
+
+🔑 Key drivers (top 5):
+   • 20-day return (value=-0.0081): pushes DOWN moderately (weight=-0.000150)
+   • 50-day exponential MA (value=866.0191): pushes DOWN moderately (weight=-0.000138)
+   • 1-day return (value=-0.0069): pushes UP moderately (weight=+0.000122)
+   • Average True Range (14d) (value=11.7236): pushes UP moderately (weight=+0.000117)
+   • log return (value=-0.0070): pushes DOWN moderately (weight=-0.000114)
+
+🎯 Concentration: top feature explains 20% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: RENATA expected to decrease by 0.11% next day
+
+🔑 Key drivers (top 5):
+   • RSI (14-day momentum) (value=79.0337): pushes DOWN moderately (weight=-0.000734)
+   • today's volume vs avg (value=0.2812): pushes DOWN moderately (weight=-0.000576)
+   • 1-day return (value=-0.0005): pushes DOWN moderately (weight=-0.000214)
+   • 20-day return (value=0.0428): pushes DOWN moderately (weight=-0.000109)
+   • Average True Range (14d) (value=2.9436): pushes UP moderately (weight=+0.000107)
+
+🎯 Concentration: top feature explains 51% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: ROBI expected to increase by 0.42% next day
+
+🔑 Key drivers (top 5):
+   • Bollinger position (value=0.7288): pushes UP moderately (weight=+0.000677)
+   • 20-day avg volume (value=429871.8500): pushes UP moderately (weight=+0.000661)
+   • log return (value=-0.0432): pushes UP moderately (weight=+0.000495)
+   • 5-day return (value=0.0059): pushes UP moderately (weight=+0.000475)
+   • 200-day moving average (value=37.1743): pushes UP moderately (weight=+0.000415)
+
+🎯 Concentration: top feature explains 24% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: SIBL expected to increase by 0.29% next day
+
+🔑 Key drivers (top 5):
+   • Average True Range (14d) (value=4.1764): pushes UP moderately (weight=+0.000722)
+   • 20-day return (value=-0.0215): pushes DOWN moderately (weight=-0.000612)
+   • 100-day moving average (value=183.3348): pushes UP moderately (weight=+0.000321)
+   • 200-day moving average (value=201.8335): pushes UP moderately (weight=+0.000315)
+   • 10-day moving average (value=172.4350): pushes UP moderately (weight=+0.000289)
+
+🎯 Concentration: top feature explains 30% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: SQURPHARMA expected to decrease by 0.01% next day
+
+🔑 Key drivers (top 5):
+   • Bollinger position (value=0.7936): pushes DOWN strongly (weight=-0.001908)
+   • 100-day moving average (value=1752.0664): pushes UP strongly (weight=+0.001638)
+   • 50-day exponential MA (value=1731.9480): pushes UP strongly (weight=+0.001549)
+   • 60-day volatility (value=0.2277): pushes DOWN strongly (weight=-0.001013)
+   • MACD histogram (value=17.5084): pushes DOWN moderately (weight=-0.000865)
+
+🎯 Concentration: top feature explains 31% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: SUMITPOWER expected to decrease by 0.69% next day
+
+🔑 Key drivers (top 5):
+   • 30-day volatility (value=0.5737): pushes DOWN strongly (weight=-0.001538)
+   • Average True Range (14d) (value=7.9843): pushes DOWN strongly (weight=-0.001476)
+   • today's volume vs avg (value=1.5543): pushes UP moderately (weight=+0.000949)
+   • RSI (14-day momentum) (value=40.0489): pushes DOWN moderately (weight=-0.000905)
+   • 26-day exponential MA (value=142.6683): pushes DOWN moderately (weight=-0.000900)
+
+🎯 Concentration: top feature explains 25% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: TITASGAS expected to decrease by 0.02% next day
+
+🔑 Key drivers (top 5):
+   • 20-day avg volume (value=510313.0500): pushes DOWN moderately (weight=-0.000881)
+   • 10-day moving average (value=217.1730): pushes UP moderately (weight=+0.000605)
+   • 20-day return (value=-0.0603): pushes UP moderately (weight=+0.000399)
+   • RSI (14-day momentum) (value=32.7954): pushes UP moderately (weight=+0.000365)
+   • MACD signal line (value=-1.4519): pushes UP moderately (weight=+0.000271)
+
+🎯 Concentration: top feature explains 43% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: UNILEVER expected to increase by 0.14% next day
+
+🔑 Key drivers (top 5):
+   • 60-day volatility (value=0.3114): pushes DOWN strongly (weight=-0.002276)
+   • 30-day volatility (value=0.3209): pushes UP strongly (weight=+0.001233)
+   • 20-day return (value=-0.0780): pushes UP moderately (weight=+0.000820)
+   • Bollinger band width (value=9.0845): pushes UP moderately (weight=+0.000673)
+   • Bollinger upper band (value=79.5868): pushes UP moderately (weight=+0.000618)
+
+🎯 Concentration: top feature explains 43% of total explanation weight
+
+----------------------------------------------------------------------
+
+📈 Prediction: WALTONHIL expected to decrease by 0.00% next day
+
+🔑 Key drivers (top 5):
+   • 50-day moving average (value=251.8244): pushes DOWN strongly (weight=-0.001543)
+   • Bollinger upper band (value=247.9619): pushes DOWN strongly (weight=-0.001453)
+   • MACD (value=-3.8050): pushes DOWN strongly (weight=-0.001310)
+   • Bollinger position (value=0.0731): pushes DOWN strongly (weight=-0.001236)
+   • 12-day exponential MA (value=238.2305): pushes DOWN moderately (weight=-0.000988)
+
+🎯 Concentration: top feature explains 24% of total explanation weight
