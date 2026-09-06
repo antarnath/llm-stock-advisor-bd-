@@ -55,3 +55,6 @@ lxml==5.1.0
 python-dotenv==1.0.1
 tqdm==4.66.2
 pyyaml==6.0.1
+
+# LLM Provider SDK (Phase 10 — used by src/llm/client.py for all 5 providers)
+openai==3.8.0

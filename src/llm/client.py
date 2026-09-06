@@ -62,7 +62,7 @@ class LLMClient:
                                               "meta-llama/llama-3.1-8b-instruct:free",
                                               "OPENROUTER_API_KEY"),
         "groq":       ("https://api.groq.com/openai/v1",
-                                              "llama-3.1-8b-instant",
+                                              "openai/gpt-oss-20b",
                                               "GROQ_API_KEY"),
         "gemini":     ("https://generativelanguage.googleapis.com/v1beta/openai/",
                                               "gemini-1.5-flash",

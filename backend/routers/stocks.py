@@ -114,12 +114,13 @@ async def get_news(ticker: str,
 
     Default `days=180` because the news corpus's most recent articles
     pre-date the latest processed price snapshot, so a 7-day window
-    returns empty. Pass `days=3650` for all-time.
+    returns empty. If the requested window returns no hits, we silently
+    widen to 5 years so the user still gets the most relevant articles.
     """
     code = ticker.upper().strip()
     raw = read_recent_impact(code, days=days, top_k=10)
-    # If empty but the user asked for >= 365 days, try the all-time fallback
-    if not raw and days < 3650:
+    # If empty, widen silently to all-time (5y) regardless of the request size
+    if not raw:
         raw = read_recent_impact(code, days=3650, top_k=10)
     items = []
     for it in raw or []:
